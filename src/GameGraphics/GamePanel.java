@@ -1,20 +1,26 @@
 package GameGraphics;
 import Entity.Player;
+import Entity.Projectile;
 import UserInput.KeyInput;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class GamePanel extends JPanel implements Runnable {
+    Queue<Projectile> queue = new LinkedList<>();
+
 //region Screen Settings
     private final int originalTileSize = 16;
     private final int scale = 3;
     private final int tileSize = originalTileSize * scale; // one tile after scale
-    private final int maxScreenCol = 16;
+    private final int maxScreenCol = 40;
     private final int maxScreenRow = 12;
     private final int screenWidth = tileSize * maxScreenCol;
     private final int screenHeight = tileSize * maxScreenRow;
     //endregion
+    private Graphics2D g2;
     private Thread gameThread;
     private KeyInput keyInput = new KeyInput();
     private int fps = 60;
@@ -24,7 +30,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
-        this.setBackground(Color.white);
+        this.setBackground(Color.white); // change
         this.setDoubleBuffered(true); //optimization stuff
         this.addKeyListener(keyInput);
         setFocusable(true); //with this game panel can listen to your keys
@@ -46,6 +52,7 @@ double nextDrawInterval = System.nanoTime() +drawInterval;
             try {
                 double remainningTime = nextDrawInterval - System.nanoTime();
                 remainningTime = remainningTime/1000000;
+
                 if (remainningTime<0){
                     remainningTime=0;
                 }
@@ -58,12 +65,24 @@ double nextDrawInterval = System.nanoTime() +drawInterval;
     }
     public void update(){
         player.update();
+
     }
     public void paintComponent(Graphics graphics){ //built in method
         super.paintComponent(graphics);
-        Graphics2D g2 = (Graphics2D)graphics; //has more function so using that one
+        g2 = (Graphics2D)graphics; //has more function so using that one
         player.draw(g2);
+        if (keyInput.shoot) {
+            Projectile p = new Projectile(this,keyInput, player.getX(), player.getY());
+            queue.add(p);
+        }
+        for (Projectile p:queue){
+            p.draw(g2);
+        }
         g2.dispose();
+    }
+
+    public Graphics2D getG2() {
+        return g2;
     }
 
     public int getOriginalTileSize() {

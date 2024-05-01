@@ -18,7 +18,7 @@ public class Player extends Entity{
         this.keyInput = keyInput;
         x = 100;
         y = 100;
-        speed = 8;
+        speed = 10;
         loadPng();
     }
     public void update(){
@@ -37,6 +37,7 @@ public class Player extends Entity{
     }
     public void draw(Graphics2D g2){
         g2.drawImage(bufferedImage,x,y,85,80,null);
+
     }
     public void loadPng(){
         try {
@@ -45,5 +46,7 @@ public class Player extends Entity{
             throw new RuntimeException(e);
         }
     }
+    public void shoot(){
 
+    }
 }
