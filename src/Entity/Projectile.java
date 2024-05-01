@@ -6,18 +6,19 @@ import UserInput.KeyInput;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Projectile extends Entity {
     GamePanel gp;
     KeyInput keyInput;
-    private boolean enemy;
+    private boolean enemy; //if enemy == go the other way
 
     public Projectile(GamePanel gp, KeyInput keyInput,int x,int y) {
         this.gp =gp;
         this.keyInput = keyInput;
         this.x = x;
         this.y = y;
-        speed = 10;
+        speed = 30;
         loadPng();
     }
 
@@ -29,11 +30,12 @@ public class Projectile extends Entity {
     @Override
     public void update() {
 
+        x += speed;
     }
 
     public void loadPng(){
         try {
-            bufferedImage = ImageIO.read(getClass().getResourceAsStream("/Projectiles/playerProjectile.png"));
+            bufferedImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Projectiles/playerProjectile.png")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

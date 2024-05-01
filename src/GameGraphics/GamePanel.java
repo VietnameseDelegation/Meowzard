@@ -10,6 +10,7 @@ import java.util.Queue;
 
 public class GamePanel extends JPanel implements Runnable {
     Queue<Projectile> queue = new LinkedList<>();
+    int despawn; // remove prolly
 
 //region Screen Settings
     private final int originalTileSize = 16;
@@ -64,8 +65,15 @@ double nextDrawInterval = System.nanoTime() +drawInterval;
         }
     }
     public void update(){
+        despawn++; //very inconcistent remove
+        if (despawn==1 && !queue.isEmpty()){
+            queue.remove();
+        }
+        despawn = 0;
+        for (Projectile p:queue){
+            p.update();
+        }
         player.update();
-
     }
     public void paintComponent(Graphics graphics){ //built in method
         super.paintComponent(graphics);
