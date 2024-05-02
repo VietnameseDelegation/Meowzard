@@ -18,18 +18,17 @@ public class Projectile extends Entity {
         this.keyInput = keyInput;
         this.x = x;
         this.y = y;
-        speed = 30;
+        speed = 10;
         loadPng();
     }
 
     @Override
     public void draw(Graphics2D g) {
-        g.drawImage(bufferedImage,x,y,32,32,null);
+        g.drawImage(bufferedImage,x+75,y+40,32,32,null);
     }
 
     @Override
     public void update() {
-
         x += speed;
     }
 

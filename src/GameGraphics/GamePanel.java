@@ -5,11 +5,15 @@ import UserInput.KeyInput;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyListener;
+import java.util.ConcurrentModificationException;
 import java.util.LinkedList;
-import java.util.Queue;
 
 public class GamePanel extends JPanel implements Runnable {
-    Queue<Projectile> queue = new LinkedList<>();
+    /*
+    TO-DO: regulate bullets make it shoot less make despawn more regularly
+
+     */
     int despawn; // remove prolly
 
 //region Screen Settings
@@ -21,10 +25,10 @@ public class GamePanel extends JPanel implements Runnable {
     private final int screenWidth = tileSize * maxScreenCol;
     private final int screenHeight = tileSize * maxScreenRow;
     //endregion
-    private Graphics2D g2;
     private Thread gameThread;
     private KeyInput keyInput = new KeyInput();
     private int fps = 60;
+    //timer
     // region Player
     private Player player = new Player(this,keyInput);
     //endregion
@@ -43,9 +47,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
     @Override
     public void run() {
-        // game loop that consist of update and draw this happens 30 times per sec (if 30 FPS)
+        // game loop that consist of update and draw this happens 60 times per sec (if 60 FPS)
 double drawInterval = 1000000000/fps; //we have to do it so our charachter doesnt get flung to the stratophere
-double nextDrawInterval = System.nanoTime() +drawInterval;
+double nextDrawInterval = System.nanoTime() + drawInterval;
         while (gameThread != null){
             update();
             repaint(); //for some reason you call paintComponent() with this
@@ -65,35 +69,13 @@ double nextDrawInterval = System.nanoTime() +drawInterval;
         }
     }
     public void update(){
-        despawn++; //very inconcistent remove
-        if (despawn==1 && !queue.isEmpty()){
-            queue.remove();
-        }
-        despawn = 0;
-        for (Projectile p:queue){
-            p.update();
-        }
         player.update();
     }
+
     public void paintComponent(Graphics graphics){ //built in method
         super.paintComponent(graphics);
-        g2 = (Graphics2D)graphics; //has more function so using that one
+        Graphics2D g2 = (Graphics2D)graphics; //has more function so using that one
         player.draw(g2);
-        if (keyInput.shoot) {
-            Projectile p = new Projectile(this,keyInput, player.getX(), player.getY());
-            queue.add(p);
-        }
-        for (Projectile p:queue){
-            p.draw(g2);
-        }
         g2.dispose();
-    }
-
-    public Graphics2D getG2() {
-        return g2;
-    }
-
-    public int getOriginalTileSize() {
-        return originalTileSize;
     }
 }
