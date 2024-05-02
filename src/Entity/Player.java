@@ -6,13 +6,12 @@ import UserInput.KeyInput;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.Objects;
+import java.util.*;
 
 public class Player extends Entity{
     GamePanel gp;
     KeyInput keyInput;
-    LinkedList<Projectile> projectiles = new LinkedList<>();
+    ArrayList<Projectile> projectiles = new ArrayList<>();
     public Player(GamePanel gp, KeyInput keyInput) {
         this.gp = gp;
         this.keyInput = keyInput;
@@ -22,6 +21,9 @@ public class Player extends Entity{
         loadPng();
     }
     public void update(){
+        for (Projectile p: projectiles){
+            p.update();
+        }
         if (keyInput.up){
             y -= speed;
         }
@@ -38,10 +40,11 @@ public class Player extends Entity{
         }
     }
     public void draw(Graphics2D g2){
-        g2.drawImage(bufferedImage,x,y,85,80,null);
         for (Projectile p: projectiles){
             p.draw(g2);
         }
+        g2.drawImage(bufferedImage,x,y,85,85,null);
+
     }
     public void loadPng(){
         try {
@@ -53,5 +56,8 @@ public class Player extends Entity{
     public void shoot(){
             Projectile p = new Projectile(gp,keyInput, x, y);
             projectiles.add(p);
+            if (projectiles.size()>100){
+                projectiles.remove(0);
+            }
     }
 }

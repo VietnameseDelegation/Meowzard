@@ -18,7 +18,7 @@ public class Projectile extends Entity {
         this.keyInput = keyInput;
         this.x = x;
         this.y = y;
-        speed = 10;
+        speed = 100;
         loadPng();
     }
 
