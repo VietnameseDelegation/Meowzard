@@ -1,5 +1,6 @@
 package Entity;
 
+import BattleField.BattleField;
 import GameGraphics.GamePanel;
 import UserInput.KeyInput;
 
@@ -11,7 +12,6 @@ import java.util.*;
 public class Player extends Entity{
     GamePanel gp;
     KeyInput keyInput;
-    ArrayList<Projectile> projectiles = new ArrayList<>();
     public Player(GamePanel gp, KeyInput keyInput) {
         this.gp = gp;
         this.keyInput = keyInput;
@@ -22,15 +22,6 @@ public class Player extends Entity{
     }
     public void update(){
         System.out.println(x);
-        //move this
-        ArrayList<Projectile> projectileToBeDeleted = new ArrayList<>();
-        for (Projectile p: projectiles){
-            p.update();
-            if (p.outsideRight()){
-                projectileToBeDeleted.add(p);
-            }
-        }
-        projectiles.removeAll(projectileToBeDeleted);
         if (keyInput.up){
             if (outsideUp()){
                 y -= speed;
@@ -39,8 +30,6 @@ public class Player extends Entity{
          if (keyInput.down){
              if (!outsideDown()){
                  y += speed;
-             } else {
-
              }
         }
          if (keyInput.left){
@@ -52,16 +41,10 @@ public class Player extends Entity{
             if (!outsideRight()) {
                  x += speed;
              }
-        }  if (keyInput.shoot) {
-            shoot();
         }
     }
     public void draw(Graphics2D g2){
-        for (Projectile p: projectiles){
-            p.draw(g2);
-        }
         g2.drawImage(bufferedImage,x,y,85,85,null);
-
     }
     public void loadPng(String filename){
         try {
@@ -70,12 +53,9 @@ public class Player extends Entity{
             throw new RuntimeException(e);
         }
     }
-    public void shoot(){
+    public void shoot(LinkedList<Projectile> projectiles){
             Projectile p = new Projectile(gp,keyInput, x, y,"playerProjectile.png",false);
             projectiles.add(p);
-            if (projectiles.size()>100){
-                projectiles.remove(0);
-            }
     }
     @Override
     public boolean outsideDown (){
@@ -93,5 +73,9 @@ public class Player extends Entity{
     @Override
     public boolean outsideLeft (){
         return x > -9;
+    }
+
+    public KeyInput getKeyInput() {
+        return keyInput;
     }
 }

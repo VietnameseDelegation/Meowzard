@@ -1,5 +1,7 @@
 package Entity;
 
+import BattleField.BattleField;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -7,9 +9,11 @@ public abstract class Entity {
     protected int x,y;
     protected int speed;
     protected BufferedImage bufferedImage;
-    protected abstract void draw(Graphics2D g);
+    public BattleField battleField;
+    public abstract void draw(Graphics2D g);
     public abstract void update();
     public abstract void loadPng(String fileName);
+
 
     public int getX() {
         return x;

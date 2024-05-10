@@ -70,7 +70,7 @@ double nextDrawInterval = System.nanoTime() + drawInterval;
         }
     }
     public void update(){
-        player.update();
+        battleField.update();
     }
 
     public void paintComponent(Graphics graphics){ //built in method
