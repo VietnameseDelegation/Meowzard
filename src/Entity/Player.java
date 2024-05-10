@@ -21,20 +21,31 @@ public class Player extends Entity{
         loadPng();
     }
     public void update(){
+        System.out.println(x);
         for (Projectile p: projectiles){
             p.update();
         }
         if (keyInput.up){
-            y -= speed;
+            if (outsideUp()){
+                y -= speed;
+            }
         }
          if (keyInput.down){
-            y += speed;
+             if (!outsideDown()){
+                 y += speed;
+             } else {
+
+             }
         }
          if (keyInput.left){
-            x -= speed;
+             if (outsideLeft()){
+                 x -= speed;
+             }
         }
          if (keyInput.right){
-            x += speed;
+            if (!outsideRight()) {
+                 x += speed;
+             }
         }  if (keyInput.shoot) {
             shoot();
         }
@@ -59,5 +70,17 @@ public class Player extends Entity{
             if (projectiles.size()>100){
                 projectiles.remove(0);
             }
+    }
+    public boolean outsideDown (){
+        return y > 500;
+    }
+    public boolean outsideUp (){
+        return y > -9;
+    }
+    public boolean outsideRight (){
+        return x > 1450;
+    }
+    public boolean outsideLeft (){
+        return x > -9;
     }
 }
