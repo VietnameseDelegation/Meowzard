@@ -22,6 +22,7 @@ public class Player extends Entity{
     }
     public void update(){
         System.out.println(x);
+        //move this
         ArrayList<Projectile> projectileToBeDeleted = new ArrayList<>();
         for (Projectile p: projectiles){
             p.update();
@@ -70,7 +71,7 @@ public class Player extends Entity{
         }
     }
     public void shoot(){
-            Projectile p = new Projectile(gp,keyInput, x, y,"playerProjectile.png");
+            Projectile p = new Projectile(gp,keyInput, x, y,"playerProjectile.png",false);
             projectiles.add(p);
             if (projectiles.size()>100){
                 projectiles.remove(0);

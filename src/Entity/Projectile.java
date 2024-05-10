@@ -13,13 +13,14 @@ public class Projectile extends Entity {
     KeyInput keyInput;
     private boolean enemy; //if enemy == go the other way
 
-    public Projectile(GamePanel gp, KeyInput keyInput,int x,int y,String filename) {
+    public Projectile(GamePanel gp, KeyInput keyInput,int x,int y,String filename, boolean enemy) {
         this.gp =gp;
         this.keyInput = keyInput;
         this.x = x;
         this.y = y;
         speed = 10;
         loadPng(filename);
+        this.enemy = enemy;
     }
 
     @Override
@@ -52,7 +53,7 @@ public class Projectile extends Entity {
 
     @Override
     public boolean outsideRight() {
-        return this.x>1440;
+        return this.x>400; //change to 1440 after test
     }
 
     @Override

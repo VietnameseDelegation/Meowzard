@@ -1,4 +1,5 @@
 package GameGraphics;
+import BattleField.BattleField;
 import Entity.Player;
 import UserInput.KeyInput;
 
@@ -30,6 +31,7 @@ public class GamePanel extends JPanel implements Runnable {
     //timer
     // region Player
     private Player player = new Player(this,keyInput);
+    BattleField battleField = new BattleField(player);
     //endregion
 
     public GamePanel() {
@@ -77,7 +79,7 @@ double nextDrawInterval = System.nanoTime() + drawInterval;
         graphics.drawImage(image,0,0,1920,576,null);
 
         Graphics2D g2 = (Graphics2D)graphics; //has more function so using that one
-        player.draw(g2);
+        battleField.draw(g2);
         g2.dispose();
     }
 }
