@@ -18,13 +18,18 @@ public class Player extends Entity{
         x = 100;
         y = 100;
         speed = 10;
-        loadPng();
+        loadPng("player.png");
     }
     public void update(){
         System.out.println(x);
+        ArrayList<Projectile> projectileToBeDeleted = new ArrayList<>();
         for (Projectile p: projectiles){
             p.update();
+            if (p.outsideRight()){
+                projectileToBeDeleted.add(p);
+            }
         }
+        projectiles.removeAll(projectileToBeDeleted);
         if (keyInput.up){
             if (outsideUp()){
                 y -= speed;
@@ -57,29 +62,34 @@ public class Player extends Entity{
         g2.drawImage(bufferedImage,x,y,85,85,null);
 
     }
-    public void loadPng(){
+    public void loadPng(String filename){
         try {
-            bufferedImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/PlayerModel/player.png")));
+            bufferedImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/PlayerModel/"+filename)));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
     public void shoot(){
-            Projectile p = new Projectile(gp,keyInput, x, y);
+            Projectile p = new Projectile(gp,keyInput, x, y,"playerProjectile.png");
             projectiles.add(p);
             if (projectiles.size()>100){
                 projectiles.remove(0);
             }
     }
+    @Override
     public boolean outsideDown (){
         return y > 500;
     }
+    @Override
+
     public boolean outsideUp (){
         return y > -9;
     }
+    @Override
     public boolean outsideRight (){
         return x > 1450;
     }
+    @Override
     public boolean outsideLeft (){
         return x > -9;
     }

@@ -9,7 +9,7 @@ public abstract class Entity {
     protected BufferedImage bufferedImage;
     protected abstract void draw(Graphics2D g);
     public abstract void update();
-    public abstract void loadPng();
+    public abstract void loadPng(String fileName);
 
     public int getX() {
         return x;
@@ -26,4 +26,8 @@ public abstract class Entity {
     public int getY() {
         return y;
     }
+    public abstract boolean outsideDown();
+    public abstract boolean outsideUp();
+    public abstract boolean outsideRight();
+    public abstract boolean outsideLeft();
 }
