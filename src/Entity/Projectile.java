@@ -13,7 +13,7 @@ public class Projectile extends Entity {
     KeyInput keyInput;
     private boolean enemy; //if enemy == go the other way
 
-    public Projectile(GamePanel gp, KeyInput keyInput,int x,int y,String filename, boolean enemy) {
+    public Projectile(GamePanel gp,KeyInput keyInput,int x,int y,String filename, boolean enemy) {
         this.gp =gp;
         this.keyInput = keyInput;
         this.x = x;

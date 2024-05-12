@@ -77,7 +77,6 @@ double nextDrawInterval = System.nanoTime() + drawInterval;
         super.paintComponent(graphics);
         Image image = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Background/background.png"))).getImage();
         graphics.drawImage(image,0,0,1920,576,null);
-
         Graphics2D g2 = (Graphics2D)graphics; //has more function so using that one
         battleField.draw(g2);
         g2.dispose();
