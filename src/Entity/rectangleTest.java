@@ -2,10 +2,14 @@ package Entity;
 
 import java.awt.*;
 
-public class Enemy extends Entity {
+public class rectangleTest extends Entity{
+    public rectangleTest() {
+        rectangle = new Rectangle(100,50,60,60);
+    }
+
     @Override
     public void draw(Graphics2D g) {
-
+        g.fillRect(100,50,60,60);
     }
 
     @Override

@@ -1,29 +1,30 @@
 package BattleField;
 
-import Entity.Enemy;
+import Entity.*;
+import Entity.Ghost;
 import Entity.Player;
 import Entity.Projectile;
-import GameGraphics.GamePanel;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.IOException;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Objects;
+import java.util.Random;
 
 public class BattleField {
 
     private Player player;
-private LinkedList<Projectile> projectiles = new LinkedList<>();
-private LinkedList<Enemy> enemies = new LinkedList<>();
+private LinkedList<Projectile> projectiles = new LinkedList<>(); // can be deleted but for now leave as it is
+private LinkedList<Entity> enemies = new LinkedList<>();
 
     public BattleField(Player player) {
         this.player = player;
+       // enemies.add(new Ghost());
+        enemies.add(new rectangleTest());
     }
 
     public void draw(Graphics2D g2){
-        for (Enemy e:enemies){
+        for (Entity e:enemies){
             e.draw(g2);
         }
         for (Projectile p:projectiles){
@@ -32,10 +33,19 @@ private LinkedList<Enemy> enemies = new LinkedList<>();
         player.draw(g2);
     }
     public void update() {
-        for (Enemy e:enemies){
-            e.update();
-        }
         ArrayList<Projectile> projectilesToDelete = new ArrayList<>();
+        for (Entity e:enemies) {
+            e.update();
+            if (e.getRectangle().intersects(player.getRectangle())) {
+                System.out.println("ouchie");
+            }
+            for (Projectile p:projectiles){
+                if (e.getRectangle().intersects(p.getRectangle())) {
+                    System.out.println("ouch");
+                    projectilesToDelete.add(p);
+                }
+            }
+        }
         for (Projectile p:projectiles){
             p.update();
             if (p.outsideRight()){
@@ -49,3 +59,4 @@ private LinkedList<Enemy> enemies = new LinkedList<>();
         }
     }
 }
+

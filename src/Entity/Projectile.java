@@ -21,11 +21,13 @@ public class Projectile extends Entity {
         speed = 10;
         loadPng(filename);
         this.enemy = enemy;
+        rectangle = new Rectangle(this.x,this.y,16,16);
     }
 
     @Override
     public void draw(Graphics2D g) {
         g.drawImage(bufferedImage,x+75,y+40,32,32,null);
+        rectangle.setRect(x,y,16,16);
     }
 
     @Override
@@ -53,7 +55,7 @@ public class Projectile extends Entity {
 
     @Override
     public boolean outsideRight() {
-        return this.x>400; //change to 1440 after test
+        return this.x>1400; //change to 1440 after test
     }
 
     @Override
