@@ -19,7 +19,7 @@ private LinkedList<Entity> enemies = new LinkedList<>();
 
     public BattleField(Player player) {
         this.player = player;
-       // enemies.add(new Ghost());
+        enemies.add(new Ghost());
         enemies.add(new rectangleTest());
     }
 

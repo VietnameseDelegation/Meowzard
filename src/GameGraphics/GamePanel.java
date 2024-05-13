@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final int maxScreenRow = 12;
     private final int screenWidth = tileSize * maxScreenCol;
     private final int screenHeight = tileSize * maxScreenRow;
-    Graphics2D g2 ;
+    private final Image backround;
 
     //endregion
     private Thread gameThread;
@@ -36,10 +36,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
-        this.setBackground(Color.cyan); // change
         this.setDoubleBuffered(true); //optimization stuff
         this.addKeyListener(keyInput);
-        setFocusable(true); //with this game panel can listen to your keys
+        setFocusable(true);//with this game panel can listen to your keys
+        this.backround = loadImg();
     }
 
     public void start(){
@@ -75,10 +75,13 @@ double nextDrawInterval = System.nanoTime() + drawInterval;
 
     public void paintComponent(Graphics graphics){ //built in method
         super.paintComponent(graphics);
-        Image image = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Background/background.png"))).getImage();
-        graphics.drawImage(image,0,0,1920,576,null);
-        Graphics2D g2 = (Graphics2D)graphics; //has more function so using that one
+        Graphics2D g2 = (Graphics2D)graphics;//has more function so using that one
+        graphics.drawImage(backround,0,0,screenWidth,screenHeight,null);
         battleField.draw(g2);
         g2.dispose();
+
+    }
+    public Image loadImg(){
+        return new ImageIcon(Objects.requireNonNull(getClass().getResource("/Background/background.png"))).getImage();
     }
 }

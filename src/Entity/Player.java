@@ -17,7 +17,7 @@ public class Player extends Entity{
         this.keyInput = keyInput;
         x = 100;
         y = 100;
-        speed = 1;
+        speed = 10;
         loadPng("player.png");
         rectangle = new Rectangle(x+17,y+17,52,42);
     }
@@ -42,10 +42,10 @@ public class Player extends Entity{
                  x += speed;
              }
         }
+        rectangle.setRect(x+17,y+17,52,42);
     }
     public void draw(Graphics2D g2){
         g2.drawImage(bufferedImage,x,y,85,85,null);
-        rectangle.setRect(x+17,y+17,52,42);
     }
     public void loadPng(String filename){
         try {
