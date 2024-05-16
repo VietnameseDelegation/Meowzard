@@ -1,25 +1,24 @@
 package Entity;
 
+import BattleField.BattleField;
 import GameGraphics.GamePanel;
 import UserInput.KeyInput;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Ghost extends Entity implements IEnemyMoves {
-    Timer timer = new Timer();
-    TimerTask task = new TimerTask() {
-        @Override
-        public void run() {
-            move();
-        }
-    };
-    public Ghost() {
-        x = 100;
+    private Player player;
+   private int moveCounter = 0;
+   private int shootCounter = 0;
+   private BattleField battleField;
+    public Ghost(BattleField battleField , Player player) {
+        this.battleField = battleField;
+        this.player = player;
+        x = 1000;
         y = 100;
         speed = 1;
         loadPng("ghost.png");
@@ -32,11 +31,21 @@ public class Ghost extends Entity implements IEnemyMoves {
 
     @Override
     public void update() {
-      //  timer.scheduleAtFixedRate(task, 1000, 1000);
-        move();
-        rectangle.setRect(x,y,32,32);
+        if (shootCounter ==100){
+            shootPattern(battleField.getProjectiles());
+            System.out.println("shoot");
+            shootCounter = 0;
+        }else {
+            shootCounter++;
+        }
+        if (moveCounter == 1) {
+            move(player.getX(), player.getY());
+            rectangle.setRect(x, y, 32, 32);
+            moveCounter = 0;
+        }else {
+            moveCounter++;
+        }
     }
-
     @Override
     public void loadPng(String fileName) {
         try {
@@ -67,12 +76,24 @@ public class Ghost extends Entity implements IEnemyMoves {
     }
 
     @Override
-    public void move() {
-        x += speed;
+    public void move(int x, int y) {
+        if (this.x > x) {
+            this.x-=speed;
+        }
+        if (this.y > y) {
+            this.y-=speed;
+        }
+        if (this.x < x) {
+            this.x+=speed;
+        }
+        if (this.y < y) {
+            this.y+=speed;
+        }
     }
 
     @Override
-    public void shootPattern() {
-
+    public void shootPattern(LinkedList<Projectile> projectiles) {
+        Projectile p = new Projectile(x, y,"playerProjectile.png",true);
+        projectiles.add(p);
     }
 }

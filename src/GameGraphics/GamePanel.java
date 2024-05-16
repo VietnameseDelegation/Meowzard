@@ -6,7 +6,7 @@ import UserInput.KeyInput;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
-
+//inspirováno https://www.youtube.com/watch?v=om59cwR7psI&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=1
 public class GamePanel extends JPanel implements Runnable {
     /*
     TO-DO: regulate bullets make it shoot less make despawn more regularly

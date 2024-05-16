@@ -13,7 +13,7 @@ public class Projectile extends Entity {
     KeyInput keyInput;
     private boolean enemy; //if enemy == go the other way
 
-    public Projectile(GamePanel gp,KeyInput keyInput,int x,int y,String filename, boolean enemy) {
+    public Projectile(int x,int y,String filename, boolean enemy) {
         this.gp =gp;
         this.keyInput = keyInput;
         this.x = x;
@@ -26,15 +26,18 @@ public class Projectile extends Entity {
 
     @Override
     public void draw(Graphics2D g) {
-        g.drawImage(bufferedImage,x+75,y+40,32,32,null);
+        g.drawImage(bufferedImage,x,y,32,32,null); //player offset 75x 45y
         rectangle.setRect(x,y,16,16);
     }
 
     @Override
     public void update() {
+        if (enemy) {
+            x-=speed;
+        } else {
             x += speed;
+        }
     }
-
     public void loadPng(String filename){
         try {
             bufferedImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Projectiles/playerProjectile.png")));
@@ -61,5 +64,9 @@ public class Projectile extends Entity {
     @Override
     public boolean outsideLeft() {
         return false;
+    }
+
+    public boolean isEnemy() {
+        return enemy;
     }
 }

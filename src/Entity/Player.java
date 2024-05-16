@@ -55,7 +55,7 @@ public class Player extends Entity{
         }
     }
     public void shoot(LinkedList<Projectile> projectiles){
-            Projectile p = new Projectile(gp,keyInput, x, y,"playerProjectile.png",false);
+            Projectile p = new Projectile(x, y,"playerProjectile.png",false);
             projectiles.add(p);
     }
     @Override

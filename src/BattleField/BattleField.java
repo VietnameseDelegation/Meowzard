@@ -19,7 +19,7 @@ private LinkedList<Entity> enemies = new LinkedList<>();
 
     public BattleField(Player player) {
         this.player = player;
-        enemies.add(new Ghost());
+        enemies.add(new Ghost(this,player));
         enemies.add(new rectangleTest());
     }
 
@@ -40,7 +40,7 @@ private LinkedList<Entity> enemies = new LinkedList<>();
                 System.out.println("ouchie");
             }
             for (Projectile p:projectiles){
-                if (e.getRectangle().intersects(p.getRectangle())) {
+                if (e.getRectangle().intersects(p.getRectangle()) && !p.isEnemy()) {
                     System.out.println("ouch");
                     projectilesToDelete.add(p);
                 }
@@ -57,6 +57,10 @@ private LinkedList<Entity> enemies = new LinkedList<>();
         if (player.getKeyInput().shoot){
             player.shoot(projectiles);
         }
+    }
+
+    public LinkedList<Projectile> getProjectiles() {
+        return projectiles;
     }
 }
 
