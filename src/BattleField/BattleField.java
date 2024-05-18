@@ -1,15 +1,13 @@
 package BattleField;
 
 import Entity.*;
-import Entity.Ghost;
+import Entity.Enemies.Ghost;
 import Entity.Player;
 import Entity.Projectile;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Random;
 
 public class BattleField {
 
@@ -19,7 +17,7 @@ private LinkedList<Entity> enemies = new LinkedList<>();
 
     public BattleField(Player player) {
         this.player = player;
-        enemies.add(new Ghost(this,player));
+        enemies.add(new Ghost(this));
         enemies.add(new rectangleTest());
     }
 

@@ -46,6 +46,7 @@ public class Projectile extends Entity {
         }
     }
 
+
     @Override
     public boolean outsideDown() {
         return false;

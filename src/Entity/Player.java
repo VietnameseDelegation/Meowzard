@@ -58,6 +58,7 @@ public class Player extends Entity{
             Projectile p = new Projectile(x, y,"playerProjectile.png",false);
             projectiles.add(p);
     }
+
     @Override
     public boolean outsideDown (){
         return y > 500;

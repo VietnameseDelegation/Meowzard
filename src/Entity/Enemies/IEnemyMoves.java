@@ -1,4 +1,6 @@
-package Entity;
+package Entity.Enemies;
+
+import Entity.Projectile;
 
 import java.util.LinkedList;
 
