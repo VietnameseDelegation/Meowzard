@@ -9,13 +9,8 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Projectile extends Entity {
-    GamePanel gp;
-    KeyInput keyInput;
-    private boolean enemy; //if enemy == go the other way
-
+    private final boolean enemy;//if enemy == go the other way
     public Projectile(int x,int y,String filename, boolean enemy) {
-        this.gp =gp;
-        this.keyInput = keyInput;
         this.x = x;
         this.y = y;
         speed = 10;

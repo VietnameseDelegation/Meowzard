@@ -1,4 +1,5 @@
 import GameGraphics.GamePanel;
+import netscape.javascript.JSObject;
 
 import javax.swing.*;
 
@@ -11,7 +12,6 @@ public class Main {
         window.add(gp);
         window.pack();
         window.setLocationRelativeTo(null);
-
         window.setVisible(true);
         gp.start();
 

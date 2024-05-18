@@ -1,25 +1,38 @@
 package Entity.Enemies;
 
 import BattleField.BattleField;
+import Coordination.Coords;
 import Entity.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Objects;
 
 public class Ghost extends Entity implements IEnemyMoves {
     private int moveCounter = 0;
     private int shootCounter = 0;
+    private int destinationX;
+    private int destinationY;
+    private int index;
+    private Coords[] destination;
     private BattleField battleField;
+    private boolean arrivedToDestination = false;
 
     public Ghost(BattleField battleField) {
         this.battleField = battleField;
         x = 1000;
         y = 100;
-        speed = 1;
+        destinationX = 1050;
+        destinationY = 500;
+      //destination = new Coords[]{new Coords(x,y), new Coords(x,y)};
+        this.destination = new Coords[4];
+        speed = 5;
         loadPng("ghost.png");
+        loadCoords();
         rectangle = new Rectangle(x, y, 32, 32);
     }
 
@@ -37,8 +50,17 @@ public class Ghost extends Entity implements IEnemyMoves {
         } else {
             shootCounter++;
         }
-        if (moveCounter == 1) {
-            move(10,10);
+        if (moveCounter == 0) {
+            Coords c = destination[index];
+            if (!arrivedToDestination) {
+                move(c.getX(),c.getY());
+            }else {
+                index++;
+                if (index == destination.length) {
+                    index = 0;
+                }
+                arrivedToDestination = false;
+            }
             rectangle.setRect(x, y, 32, 32);
             moveCounter = 0;
         } else {
@@ -53,6 +75,23 @@ public class Ghost extends Entity implements IEnemyMoves {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+    public void loadCoords(){
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("res/Coords/Pattern.csv"));
+            String s;
+            br.readLine();
+            int index = 0;
+            while ((s=br.readLine())!=null){
+                int x = Integer.parseInt(s.split(",")[0]);
+                int y = Integer.parseInt(s.split(",")[1]);
+                destination[index] = new Coords(x,y);
+                index++;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(Arrays.toString(destination));
     }
 
     @Override
@@ -88,11 +127,22 @@ public class Ghost extends Entity implements IEnemyMoves {
         else if (this.y < y) {
             this.y += speed;
         }
+        if (this.x == x && this.y == y) {
+            arrivedToDestination = true;
+        }
     }
 
     @Override
     public void shootPattern(LinkedList<Projectile> projectiles) {
         Projectile p = new Projectile(x, y, "playerProjectile.png", true);
         projectiles.add(p);
+    }
+
+    public void setDestinationX(int destinationX) {
+        this.destinationX = destinationX;
+    }
+
+    public void setDestinationY(int destinationY) {
+        this.destinationY = destinationY;
     }
 }
