@@ -7,15 +7,17 @@ import Entity.Entity;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
+// this is basically a blueprint for an enemy
 public abstract class Enemy extends Entity implements IEnemyMoves {
-    private int moveCounter = 0;
-    private int shootCounter = 0;
-    private static int SHOOTCOOLDOWN;
-    private int index;
-    private Coords[] destination;
-    private BattleField battleField;
-    private boolean arrivedToDestination = false;
+    protected int width;
+    protected int height;
+    protected int moveCounter = 0;
+    protected int shootCounter = 0;
+    protected static int SHOOTCOOLDOWN;
+    protected int index;
+    protected Coords[] destination;
+    protected BattleField battleField;
+    protected boolean arrivedToDestination = false;
 
     public void loadCoords(String filePath){
         try {
@@ -33,6 +35,36 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
             throw new RuntimeException(e);
         }
 
+    }
+    @Override
+    public void update() {
+        if (shootCounter == SHOOTCOOLDOWN) {
+            shootPattern(battleField.getProjectiles());
+            System.out.println("shoot");
+            shootCounter = 0;
+        } else {
+            shootCounter++;
+        }
+        if (moveCounter == 0) {
+            Coords c = destination[index];
+            if (c == null){
+                index = 0;
+                c=destination[index];
+            }
+            if (!arrivedToDestination) {
+                move(c.getX(),c.getY());
+            }else {
+                index++;
+                if (index == destination.length) {
+                    index = 0;
+                }
+                arrivedToDestination = false;
+            }
+            rectangle.setRect(x, y,width, height);
+            moveCounter = 0;
+        } else {
+            moveCounter++;
+        }
     }
     @Override
     public void move(int x, int y) {
