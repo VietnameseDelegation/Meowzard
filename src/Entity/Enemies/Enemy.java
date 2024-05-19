@@ -4,9 +4,13 @@ import BattleField.BattleField;
 import Coordination.Coords;
 import Entity.Entity;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Objects;
+
 // this is basically a blueprint for an enemy
 public abstract class Enemy extends Entity implements IEnemyMoves {
     protected int width;
@@ -35,6 +39,18 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
             throw new RuntimeException(e);
         }
 
+    }
+    @Override
+    public void loadPng(String fileName) {
+        try {
+            bufferedImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/" + fileName)));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Override
+    public void draw(Graphics2D g) {
+        g.drawImage(bufferedImage, x, y, width, height, null);
     }
     @Override
     public void update() {

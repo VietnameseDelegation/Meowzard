@@ -2,6 +2,7 @@ package BattleField;
 
 import Entity.*;
 import Entity.Enemies.Ghost;
+import Entity.Enemies.Octopus;
 import Entity.Player;
 import Entity.Projectile;
 
@@ -18,7 +19,7 @@ private LinkedList<Entity> enemies = new LinkedList<>();
     public BattleField(Player player) {
         this.player = player;
         enemies.add(new Ghost(this));
-        enemies.add(new rectangleTest());
+        enemies.add(new Octopus(this));
     }
 
     public void draw(Graphics2D g2){

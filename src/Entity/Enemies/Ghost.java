@@ -27,19 +27,6 @@ public class Ghost extends Enemy {
         loadCoords("res/Coords/Pattern.csv");
         rectangle = new Rectangle(x, y, width, height);
     }
-
-    @Override
-    public void draw(Graphics2D g) {
-        g.drawImage(bufferedImage, x, y, width, height, null);
-    }
-    @Override
-    public void loadPng(String fileName) {
-        try {
-            bufferedImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/" + fileName)));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
     @Override
     public boolean outsideDown() {
         return false;
