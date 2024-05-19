@@ -59,7 +59,7 @@ public class Projectile extends Entity {
 
     @Override
     public boolean outsideLeft() {
-        return false;
+        return this.x<0;
     }
 
     public boolean isEnemy() {

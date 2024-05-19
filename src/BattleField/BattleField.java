@@ -46,7 +46,7 @@ private LinkedList<Entity> enemies = new LinkedList<>();
         }
         for (Projectile p:projectiles){
             p.update();
-            if (p.outsideRight()){
+            if (p.outsideRight()||p.outsideLeft()){
                 projectilesToDelete.add(p);
             }
         }

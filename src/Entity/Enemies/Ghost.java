@@ -15,8 +15,6 @@ import java.util.Objects;
 public class Ghost extends Entity implements IEnemyMoves {
     private int moveCounter = 0;
     private int shootCounter = 0;
-    private int destinationX;
-    private int destinationY;
     private int index;
     private Coords[] destination;
     private BattleField battleField;
@@ -26,13 +24,10 @@ public class Ghost extends Entity implements IEnemyMoves {
         this.battleField = battleField;
         x = 1000;
         y = 100;
-        destinationX = 1050;
-        destinationY = 500;
-      //destination = new Coords[]{new Coords(x,y), new Coords(x,y)};
         this.destination = new Coords[4];
         speed = 5;
-        loadPng("ghost.png");
-        loadCoords();
+        loadPng("ghost.png"); //change so the method is in entity by changing the input to the method to file path instead of file name
+        loadCoords("res/Coords/Pattern.csv");
         rectangle = new Rectangle(x, y, 32, 32);
     }
 
@@ -52,6 +47,9 @@ public class Ghost extends Entity implements IEnemyMoves {
         }
         if (moveCounter == 0) {
             Coords c = destination[index];
+            if (c == null){
+                    index = 0;
+            }
             if (!arrivedToDestination) {
                 move(c.getX(),c.getY());
             }else {
@@ -76,9 +74,9 @@ public class Ghost extends Entity implements IEnemyMoves {
             throw new RuntimeException(e);
         }
     }
-    public void loadCoords(){
+    public void loadCoords(String filePath){
         try {
-            BufferedReader br = new BufferedReader(new FileReader("res/Coords/Pattern.csv"));
+            BufferedReader br = new BufferedReader(new FileReader(filePath)); //"res/Coords/Pattern.csv"
             String s;
             br.readLine();
             int index = 0;
@@ -91,7 +89,7 @@ public class Ghost extends Entity implements IEnemyMoves {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(Arrays.toString(destination));
+
     }
 
     @Override
@@ -136,13 +134,5 @@ public class Ghost extends Entity implements IEnemyMoves {
     public void shootPattern(LinkedList<Projectile> projectiles) {
         Projectile p = new Projectile(x, y, "playerProjectile.png", true);
         projectiles.add(p);
-    }
-
-    public void setDestinationX(int destinationX) {
-        this.destinationX = destinationX;
-    }
-
-    public void setDestinationY(int destinationY) {
-        this.destinationY = destinationY;
     }
 }
