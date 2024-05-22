@@ -6,6 +6,7 @@ import Entity.Entity;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,15 +14,17 @@ import java.util.Objects;
 
 // this is basically a blueprint for an enemy
 public abstract class Enemy extends Entity implements IEnemyMoves {
+    protected int health;
     protected int width;
     protected int height;
     protected int moveCounter = 0;
     protected int shootCounter = 0;
-    protected static int SHOOTCOOLDOWN;
+    protected int shootCooldown;
     protected int index;
     protected Coords[] destination;
     protected BattleField battleField;
     protected boolean arrivedToDestination = false;
+    protected BufferedImage projectile;
 
     public void loadCoords(String filePath){
         try {
@@ -41,9 +44,10 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
 
     }
     @Override
-    public void loadPng(String fileName) {
+    public void loadPng(String sprite,String projectileSprite) {
         try {
-            bufferedImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/" + fileName)));
+            bufferedImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/" + sprite)));
+            projectile = ImageIO.read(Objects.requireNonNull(getClass().getResource("/Projectiles/" + projectileSprite)));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -54,9 +58,10 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
     }
     @Override
     public void update() {
-        if (shootCounter == SHOOTCOOLDOWN) {
+        if (shootCounter == shootCooldown) {
             shootPattern(battleField.getProjectiles());
             System.out.println("shoot");
+            System.out.println(shootCounter);
             shootCounter = 0;
         } else {
             shootCounter++;
@@ -97,6 +102,13 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
         }
         if (this.x == x && this.y == y) {
             arrivedToDestination = true;
+        }
+    }
+    public static Enemy createEnemy(String choice,BattleField battleField,int x,int y,int speed,int shootCooldown,int health){
+        switch (choice){
+            case "ghost": return new Ghost(battleField,x,y,speed,shootCooldown,health);
+            case "octopus": return new Octopus(battleField);
+            default: return null;
         }
     }
 }

@@ -5,16 +5,18 @@ import UserInput.KeyInput;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Objects;
 
 public class Projectile extends Entity {
     private final boolean enemy;//if enemy == go the other way
-    public Projectile(int x,int y,String filename, boolean enemy) {
+    public Projectile(int x, int y,int speed ,BufferedImage projectileSprite, boolean enemy) {
         this.x = x;
         this.y = y;
-        speed = 10;
-        loadPng(filename);
+        this.speed = speed;
+        bufferedImage = projectileSprite;
         this.enemy = enemy;
         rectangle = new Rectangle(this.x,this.y,16,16);
     }
@@ -33,12 +35,7 @@ public class Projectile extends Entity {
             x += speed;
         }
     }
-    public void loadPng(String filename){
-        try {
-            bufferedImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Projectiles/playerProjectile.png")));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void loadPng(String filename,String s){
     }
 
 
@@ -54,7 +51,7 @@ public class Projectile extends Entity {
 
     @Override
     public boolean outsideRight() {
-        return this.x>1400; //change to 1440 after test
+        return this.x>1500;
     }
 
     @Override

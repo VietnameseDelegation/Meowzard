@@ -14,7 +14,7 @@ public abstract class Entity {
     public Rectangle2D rectangle;
     public abstract void draw(Graphics2D g);
     public abstract void update();
-    public abstract void loadPng(String fileName);
+    public abstract void loadPng(String sprite,String projectileSprite);
 
 
     public int getX() {

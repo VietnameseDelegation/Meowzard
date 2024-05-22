@@ -6,19 +6,21 @@ import UserInput.KeyInput;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.*;
 
 public class Player extends Entity{
     GamePanel gp;
     KeyInput keyInput;
+    protected BufferedImage projectile;
     public Player(GamePanel gp, KeyInput keyInput) {
         this.gp = gp;
         this.keyInput = keyInput;
         x = 100;
         y = 100;
         speed = 10;
-        loadPng("player.png");
+        loadPng("player.png","playerProjectile.png");
         rectangle = new Rectangle(x+17,y+17,52,42);
     }
     public void update(){
@@ -47,15 +49,16 @@ public class Player extends Entity{
     public void draw(Graphics2D g2){
         g2.drawImage(bufferedImage,x,y,85,85,null);
     }
-    public void loadPng(String filename){
+    public void loadPng(String filename,String projectileSprite){ //"/PlayerModel/"+filename "/Projectile/"+projectileSprite
         try {
             bufferedImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/PlayerModel/"+filename)));
+            projectile = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Projectiles/"+projectileSprite)));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
     public void shoot(LinkedList<Projectile> projectiles){
-            Projectile p = new Projectile(x, y,"playerProjectile.png",false);
+            Projectile p = new Projectile(x+40, y+30,10,projectile,false);
             projectiles.add(p);
     }
 

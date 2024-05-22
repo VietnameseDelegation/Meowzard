@@ -3,7 +3,6 @@ import BattleField.BattleField;
 import Coordination.Coords;
 import Entity.*;
 import java.awt.*;
-import java.util.Base64;
 import java.util.LinkedList;
 
 public class Octopus extends Enemy {
@@ -13,17 +12,18 @@ public class Octopus extends Enemy {
         height = 29;
         x = 1200;
         y = 200;
-        SHOOTCOOLDOWN = 300;
+        shootCooldown = 100;
         this.destination = new Coords[10];
-        speed = 5;
-        loadPng("octopus.png"); //change so the method is in entity by changing the input to the method to file path instead of file name
+        speed = 1;
+        loadPng("octopus.png","octopusProjectile.png"); //change so the method is in entity by changing the input to the method to file path instead of file name
         loadCoords("res/Coords/Pattern.csv");
         rectangle = new Rectangle(x, y, width, height+3);
     }
 
     @Override
     public void shootPattern(LinkedList<Projectile> projectiles) {
-
+        Projectile p = new Projectile(x, y, 3,projectile, true);
+        projectiles.add(p);
     }
 
     @Override
