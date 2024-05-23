@@ -6,7 +6,8 @@ import java.awt.*;
 import java.util.LinkedList;
 
 public class Octopus extends Enemy {
-    public Octopus(BattleField battleField) {
+    public Octopus(BattleField battleField,int x,int y,int speed,int shootCooldown,int health) {
+        super(battleField,x,y,speed,shootCooldown,health);
         this.battleField = battleField;
         width = 32;
         height = 29;

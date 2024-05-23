@@ -8,12 +8,6 @@ import java.awt.*;
 import java.util.Objects;
 //inspirováno https://www.youtube.com/watch?v=om59cwR7psI&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=1
 public class GamePanel extends JPanel implements Runnable {
-    /*
-    TO-DO: regulate bullets make it shoot less make despawn more regularly
-
-     */
-    int despawn; // remove prolly
-
 //region Screen Settings
     private final int originalTileSize = 16;
     private final int scale = 3;
@@ -23,16 +17,11 @@ public class GamePanel extends JPanel implements Runnable {
     private final int screenWidth = tileSize * maxScreenCol;
     private final int screenHeight = tileSize * maxScreenRow;
     private final Image backround;
-
     //endregion
     private Thread gameThread;
     private KeyInput keyInput = new KeyInput();
     private int fps = 60;
-    //timer
-    // region Player
-    private Player player = new Player(this,keyInput);
-    BattleField battleField = new BattleField(player);
-    //endregion
+    private BattleField battleField = new BattleField(keyInput);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));

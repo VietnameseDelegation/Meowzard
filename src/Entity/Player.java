@@ -1,7 +1,6 @@
 package Entity;
 
 import BattleField.BattleField;
-import GameGraphics.GamePanel;
 import UserInput.KeyInput;
 
 import javax.imageio.ImageIO;
@@ -10,77 +9,98 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.*;
 
-public class Player extends Entity{
-    GamePanel gp;
-    KeyInput keyInput;
-    protected BufferedImage projectile;
-    public Player(GamePanel gp, KeyInput keyInput) {
-        this.gp = gp;
+public class Player extends Entity {
+    private KeyInput keyInput;
+    private BufferedImage projectile;
+    private int health;
+    private int shootCooldown = 3;
+    private int shootCounter = 0;
+
+    public Player(KeyInput keyInput, BattleField battleField) {
+        this.health = 3;
         this.keyInput = keyInput;
+        this.battleField = battleField;
         x = 100;
         y = 100;
         speed = 10;
-        loadPng("player.png","playerProjectile.png");
-        rectangle = new Rectangle(x+17,y+17,52,42);
+        loadPng("player.png", "playerProjectile.png");
+        rectangle = new Rectangle(x + 17, y + 17, 52, 42);
     }
-    public void update(){
-        if (keyInput.up){
-            if (outsideUp()){
+
+    public void update() {
+        if (keyInput.up) {
+            if (outsideUp()) {
                 y -= speed;
             }
         }
-         if (keyInput.down){
-             if (!outsideDown()){
-                 y += speed;
-             }
+        if (keyInput.down) {
+            if (!outsideDown()) {
+                y += speed;
+            }
         }
-         if (keyInput.left){
-             if (outsideLeft()){
-                 x -= speed;
-             }
+        if (keyInput.left) {
+            if (outsideLeft()) {
+                x -= speed;
+            }
         }
-         if (keyInput.right){
+        if (keyInput.right) {
             if (!outsideRight()) {
-                 x += speed;
-             }
+                x += speed;
+            }
         }
-        rectangle.setRect(x+17,y+17,52,42);
+        if (keyInput.shoot) {
+            if (shootCooldown < shootCounter) {
+                shoot(battleField.getProjectiles());
+                shootCounter = 0;
+            }
+        }
+        shootCounter++;
+        rectangle.setRect(x + 17, y + 17, 52, 42);
     }
-    public void draw(Graphics2D g2){
-        g2.drawImage(bufferedImage,x,y,85,85,null);
+
+    public void draw(Graphics2D g2) {
+        g2.drawImage(bufferedImage, x, y, 85, 85, null);
     }
-    public void loadPng(String filename,String projectileSprite){ //"/PlayerModel/"+filename "/Projectile/"+projectileSprite
+
+    public void loadPng(String filename, String projectileSprite) { //"/PlayerModel/"+filename "/Projectile/"+projectileSprite
         try {
-            bufferedImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/PlayerModel/"+filename)));
-            projectile = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Projectiles/"+projectileSprite)));
+            bufferedImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/PlayerModel/" + filename)));
+            projectile = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Projectiles/" + projectileSprite)));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    public void shoot(LinkedList<Projectile> projectiles){
-            Projectile p = new Projectile(x+40, y+30,10,projectile,false);
-            projectiles.add(p);
+
+    public void shoot(LinkedList<Projectile> projectiles) {
+        Projectile p = new Projectile(x + 40, y + 30, 10, projectile, false);
+        projectiles.add(p);
     }
 
     @Override
-    public boolean outsideDown (){
+    public boolean outsideDown() {
         return y > 500;
     }
+
     @Override
 
-    public boolean outsideUp (){
+    public boolean outsideUp() {
         return y > -9;
     }
+
     @Override
-    public boolean outsideRight (){
+    public boolean outsideRight() {
         return x > 1450;
     }
+
     @Override
-    public boolean outsideLeft (){
+    public boolean outsideLeft() {
         return x > -9;
     }
 
-    public KeyInput getKeyInput() {
-        return keyInput;
+    public void hurt() {
+        health--;
+        if (health <= 0) {
+            System.out.println("ded"); //replace with play again thing
+        }
     }
 }

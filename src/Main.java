@@ -1,5 +1,4 @@
 import GameGraphics.GamePanel;
-import netscape.javascript.JSObject;
 
 import javax.swing.*;
 

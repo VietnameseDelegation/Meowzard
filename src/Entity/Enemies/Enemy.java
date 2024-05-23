@@ -21,10 +21,19 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
     protected int shootCounter = 0;
     protected int shootCooldown;
     protected int index;
+    protected boolean isDead;
     protected Coords[] destination;
     protected BattleField battleField;
     protected boolean arrivedToDestination = false;
     protected BufferedImage projectile;
+    public Enemy(BattleField battleField,int x,int y,int speed,int shootCooldown,int health){
+        this.x = x;
+        this. y = y;
+        this.speed = speed;
+        this.battleField = battleField;
+        this.health = health;
+        this.shootCooldown = shootCooldown;
+    }
 
     public void loadCoords(String filePath){
         try {
@@ -107,8 +116,18 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
     public static Enemy createEnemy(String choice,BattleField battleField,int x,int y,int speed,int shootCooldown,int health){
         switch (choice){
             case "ghost": return new Ghost(battleField,x,y,speed,shootCooldown,health);
-            case "octopus": return new Octopus(battleField);
+            case "octopus": return new Octopus(battleField,x,y,speed,shootCooldown,health);
             default: return null;
         }
+    }
+    public void hurt(){
+        health--;
+        if (health <= 0) {
+            isDead = true;
+        }
+    }
+
+    public boolean isDead() {
+        return isDead;
     }
 }

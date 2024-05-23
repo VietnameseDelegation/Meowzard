@@ -10,9 +10,8 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 public class WavesOfEnemies {
-
-    public LinkedList<Entity> loadWave(String filePath,BattleField battleField) {
-        LinkedList<Entity> wave = new LinkedList<>();
+    public LinkedList<Enemy> loadWave(String filePath,BattleField battleField) {
+        LinkedList<Enemy> wave = new LinkedList<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(filePath)); //"res/Coords/Pattern.csv"
             String s;
