@@ -6,18 +6,11 @@ import java.awt.*;
 import java.util.LinkedList;
 
 public class Octopus extends Enemy {
-    public Octopus(BattleField battleField,int x,int y,int speed,int shootCooldown,int health) {
-        super(battleField,x,y,speed,shootCooldown,health);
-        this.battleField = battleField;
-        width = 32;
-        height = 29;
-        x = 1200;
-        y = 200;
-        shootCooldown = 100;
-        this.destination = new Coords[10];
-        speed = 1;
+    public Octopus(BattleField battleField,int x,int y,int speed,int shootCooldown,int health,String patterFilePath) {
+        super(battleField,x,y,speed,shootCooldown,health,patterFilePath);
+        this.width = 32;
+        this.height = 29;
         loadPng("octopus.png","octopusProjectile.png"); //change so the method is in entity by changing the input to the method to file path instead of file name
-        loadCoords("res/Coords/Pattern.csv");
         rectangle = new Rectangle(x, y, width, height+3);
     }
 

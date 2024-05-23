@@ -8,13 +8,11 @@ import java.util.LinkedList;
 
 public class Ghost extends Enemy {
 
-    public Ghost(BattleField battleField,int x,int y,int speed,int shootCooldown,int health) {
-        super(battleField,x,y,speed,shootCooldown,health);
+    public Ghost(BattleField battleField,int x,int y,int speed,int shootCooldown,int health,String patternFilePath) {
+        super(battleField,x,y,speed,shootCooldown,health,patternFilePath);
         this.width = 32;
         this.height = 32;
-        this.destination = new Coords[10];
         loadPng("ghost.png","playerProjectile.png"); //change so the method is in entity by changing the input to the method to file path instead of file name
-        loadCoords("res/Coords/Pattern.csv");
         rectangle = new Rectangle(x, y, width, height);
     }
     @Override

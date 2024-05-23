@@ -26,13 +26,16 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
     protected BattleField battleField;
     protected boolean arrivedToDestination = false;
     protected BufferedImage projectile;
-    public Enemy(BattleField battleField,int x,int y,int speed,int shootCooldown,int health){
+    protected int scoreAfterDefeat; // load via file
+    public Enemy(BattleField battleField,int x,int y,int speed,int shootCooldown,int health,String patternFilePath){
         this.x = x;
         this. y = y;
         this.speed = speed;
         this.battleField = battleField;
         this.health = health;
         this.shootCooldown = shootCooldown;
+        this.destination = new Coords[10];
+        loadCoords(patternFilePath);
     }
 
     public void loadCoords(String filePath){
@@ -69,8 +72,6 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
     public void update() {
         if (shootCounter == shootCooldown) {
             shootPattern(battleField.getProjectiles());
-            System.out.println("shoot");
-            System.out.println(shootCounter);
             shootCounter = 0;
         } else {
             shootCounter++;
@@ -113,10 +114,10 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
             arrivedToDestination = true;
         }
     }
-    public static Enemy createEnemy(String choice,BattleField battleField,int x,int y,int speed,int shootCooldown,int health){
+    public static Enemy createEnemy(String choice,BattleField battleField,int x,int y,int speed,int shootCooldown,int health,String patternFilePath){
         switch (choice){
-            case "ghost": return new Ghost(battleField,x,y,speed,shootCooldown,health);
-            case "octopus": return new Octopus(battleField,x,y,speed,shootCooldown,health);
+            case "ghost": return new Ghost(battleField,x,y,speed,shootCooldown,health,patternFilePath);
+            case "octopus": return new Octopus(battleField,x,y,speed,shootCooldown,health,patternFilePath);
             default: return null;
         }
     }
