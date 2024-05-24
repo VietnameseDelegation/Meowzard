@@ -6,14 +6,23 @@ import Entity.Player;
 import Entity.Projectile;
 import UserInput.KeyInput;
 
+import javax.sound.sampled.Line;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class BattleField {
+    /*
+    * TO-DO: write text on screen if you won or not
+    *        write more waves
+    *        write more patterns
+    *        main menu
+    *        pause?
+    * */
     private Player player;
     private int waveNumber = 0;
-    private LinkedList<Projectile> projectiles = new LinkedList<>(); // can be deleted but for now leave as it is
+    private LinkedList<Projectile> projectiles = new LinkedList<>();// can be deleted but for now leave as it is
+    private LinkedList<LinkedList<Enemy>> allWaves = new LinkedList<>();
     private LinkedList<Enemy> enemies = new LinkedList<>();
    private WavesOfEnemies waves = new WavesOfEnemies();
 
@@ -68,15 +77,38 @@ public class BattleField {
             waveNumber++;
             try{
            enemies.addAll(waves.loadWave("res/waves/wave" + waveNumber + ".csv", this));
-        }catch (Exception e){
-                System.out.println("you won");
-                //leave to main menu
+        } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("victory");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+            catch (Exception e){
+                System.out.println("something went wrong please make sure the format is wave+number.csv");
+                e.printStackTrace();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         }
     }
-
     public LinkedList<Projectile> getProjectiles() {
         return projectiles;
+    }
+    public LinkedList<LinkedList<Enemy>> loadWaves(){
+        LinkedList<LinkedList<Enemy>> allWaves = new LinkedList<>();
+        while(true){
+            try {
+                allWaves.add(waves.loadWave("res/waves/wave" + waveNumber + ".csv", this));
+            }catch (Exception e){
+                return allWaves;
+            }
+        }
+
     }
 }
 

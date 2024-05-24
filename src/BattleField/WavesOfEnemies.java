@@ -1,10 +1,7 @@
 package BattleField;
-
-import Coordination.Coords;
 import Entity.Enemies.Enemy;
-import Entity.Entity;
-
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -27,7 +24,8 @@ public class WavesOfEnemies {
                 String patternFilepath = tokens[6];
                 wave.add(Enemy.createEnemy(choice,battleField,x,y,speed,shootCooldown,health,patternFilepath));
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             throw new RuntimeException(e);
         }
         return wave;
