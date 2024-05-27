@@ -5,8 +5,6 @@ import Entity.Enemies.Enemy;
 import Entity.Player;
 import Entity.Projectile;
 import UserInput.KeyInput;
-
-import javax.sound.sampled.Line;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -18,17 +16,24 @@ public class BattleField {
     *        write more patterns
     *        main menu
     *        pause?
-    * */
+    *        rekurze for loading the waves
+    *        method to write on screen
+     */
+    private int stageCounter = 0;
     private Player player;
     private int waveNumber = 0;
     private LinkedList<Projectile> projectiles = new LinkedList<>();// can be deleted but for now leave as it is
-    private LinkedList<LinkedList<Enemy>> allWaves = new LinkedList<>();
+    private ArrayList<LinkedList<Enemy>> allWaves = new ArrayList<>();
     private LinkedList<Enemy> enemies = new LinkedList<>();
-   private WavesOfEnemies waves = new WavesOfEnemies();
+    private WavesOfEnemies waves = new WavesOfEnemies();
+    private boolean stageClear = false;
+    private boolean victory = false;
 
     public BattleField(KeyInput keyInput) {
         player = new Player(keyInput,this);
-        enemies.addAll(waves.loadWave("res/waves/wave" + waveNumber + ".csv", this)); // move this from constructor to the update so when the enemies will die you can add more or maybe not
+        this.allWaves = loadWaves();
+        waveNumber = 0;
+        enemies = allWaves.get(waveNumber);
     }
 
     public void draw(Graphics2D g2) {
@@ -57,6 +62,7 @@ public class BattleField {
             }
             if(e.isDead()){
                 enemiesToDelete.add(e);
+
             }
         }
         enemies.removeAll(enemiesToDelete);
@@ -73,42 +79,60 @@ public class BattleField {
         projectiles.removeAll(projectilesToDelete);
         player.update();
 
-        if (enemies.isEmpty()) {
-            waveNumber++;
+        if (enemies.isEmpty()&&!victory) {
+            stageClear = true;
             try{
-           enemies.addAll(waves.loadWave("res/waves/wave" + waveNumber + ".csv", this));
-        } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("victory");
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    throw new RuntimeException(ex);
+                if (stageCounter == 100) {
+                    waveNumber++;
+                    stageCounter = 0;
+                    stageClear = false;
+                    enemies.addAll(allWaves.get(waveNumber));
+                }else {
+                    stageCounter++;
                 }
-            }
-            catch (Exception e){
-                System.out.println("something went wrong please make sure the format is wave+number.csv");
-                e.printStackTrace();
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    throw new RuntimeException(ex);
-                }
+            }catch(Exception e){
+                victory = true;
             }
         }
     }
     public LinkedList<Projectile> getProjectiles() {
         return projectiles;
     }
-    public LinkedList<LinkedList<Enemy>> loadWaves(){
-        LinkedList<LinkedList<Enemy>> allWaves = new LinkedList<>();
-        while(true){
+    public ArrayList<LinkedList<Enemy>> loadWaves(){
+        ArrayList<LinkedList<Enemy>> allWaves = new ArrayList<>();
+        boolean b =true;
+        while(b){
             try {
                 allWaves.add(waves.loadWave("res/waves/wave" + waveNumber + ".csv", this));
-            }catch (Exception e){
+                waveNumber++;
+                System.out.println("add");
+            }catch (ArrayIndexOutOfBoundsException e){
+                waveNumber++;
+            }
+            catch (RuntimeException e){
+                //if waves of numbers is the same as numbers of files in package then return
+                System.out.println("there was a problem loading waves"+waveNumber);
+                e.printStackTrace();
                 return allWaves;
             }
         }
+        return null;
+    }
 
+    public boolean isStageClear() {
+        return stageClear;
+    }
+
+    public void setStageClear(boolean stageClear) {
+        this.stageClear = stageClear;
+    }
+
+    public boolean isVictory() {
+        return victory;
+    }
+
+    public void setVictory(boolean victory) {
+        this.victory = victory;
     }
 }
 

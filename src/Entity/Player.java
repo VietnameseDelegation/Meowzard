@@ -13,7 +13,7 @@ public class Player extends Entity {
     private KeyInput keyInput;
     private BufferedImage projectile;
     private int health;
-    private int shootCooldown = 3;
+    private int shootCooldown = 10;
     private int shootCounter = 0;
 
     public Player(KeyInput keyInput, BattleField battleField) {
@@ -22,7 +22,7 @@ public class Player extends Entity {
         this.battleField = battleField;
         x = 100;
         y = 100;
-        speed = 10;
+        speed = 7;
         loadPng("player.png", "playerProjectile.png");
         rectangle = new Rectangle(x + 17, y + 17, 52, 42);
     }
@@ -72,7 +72,7 @@ public class Player extends Entity {
     }
 
     public void shoot(LinkedList<Projectile> projectiles) {
-        Projectile p = new Projectile(x + 40, y + 30, 10, projectile, false);
+        Projectile p = new Projectile(x + 40, y + 30, 10, projectile, false,18*2,4*2);
         projectiles.add(p);
     }
 
@@ -89,7 +89,7 @@ public class Player extends Entity {
 
     @Override
     public boolean outsideRight() {
-        return x > 1450;
+        return x > 1355;
     }
 
     @Override

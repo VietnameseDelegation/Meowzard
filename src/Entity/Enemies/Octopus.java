@@ -16,27 +16,7 @@ public class Octopus extends Enemy {
 
     @Override
     public void shootPattern(LinkedList<Projectile> projectiles) {
-        Projectile p = new Projectile(x, y, 3,projectile, true);
+        Projectile p = new Projectile(x, y, 3,projectile, true,32,32);
         projectiles.add(p);
-    }
-
-    @Override
-    public boolean outsideDown() {
-        return false;
-    }
-
-    @Override
-    public boolean outsideUp() {
-        return false;
-    }
-
-    @Override
-    public boolean outsideRight() {
-        return false;
-    }
-
-    @Override
-    public boolean outsideLeft() {
-        return false;
     }
 }

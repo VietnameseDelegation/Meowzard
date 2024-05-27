@@ -1,30 +1,25 @@
 package Entity;
 
-import GameGraphics.GamePanel;
-import UserInput.KeyInput;
-
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.Objects;
 
 public class Projectile extends Entity {
     private final boolean enemy;//if enemy == go the other way
-    public Projectile(int x, int y,int speed ,BufferedImage projectileSprite, boolean enemy) {
+    public Projectile(int x, int y,int speed ,BufferedImage projectileSprite, boolean enemy,int width,int height) {
         this.x = x;
         this.y = y;
+        this.width = width;
+        this.height = height;
         this.speed = speed;
         bufferedImage = projectileSprite;
         this.enemy = enemy;
-        rectangle = new Rectangle(this.x,this.y,16,16);
+        rectangle = new Rectangle(this.x,this.y,width,height);
     }
 
     @Override
     public void draw(Graphics2D g) {
-        g.drawImage(bufferedImage,x,y,32,32,null); //player offset 75x 45y
-        rectangle.setRect(x,y,16,16);
+        g.drawImage(bufferedImage,x,y,width,height,null); //player offset 75x 45y
+        rectangle.setRect(x,y,width,height);
     }
 
     @Override
@@ -51,7 +46,7 @@ public class Projectile extends Entity {
 
     @Override
     public boolean outsideRight() {
-        return this.x>1500;
+        return this.x>1400;
     }
 
     @Override

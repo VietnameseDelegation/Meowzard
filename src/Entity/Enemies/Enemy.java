@@ -3,10 +3,10 @@ package Entity.Enemies;
 import BattleField.BattleField;
 import Coordination.Coords;
 import Entity.Entity;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,9 +15,7 @@ import java.util.Objects;
 // this is basically a blueprint for an enemy
 public abstract class Enemy extends Entity implements IEnemyMoves {
     protected int health;
-    protected int width;
-    protected int height;
-    protected int moveCounter = 0;
+    protected int moveCounter = 0; //remove
     protected int shootCounter = 0;
     protected int shootCooldown;
     protected int index;
@@ -118,6 +116,8 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
         switch (choice){
             case "ghost": return new Ghost(battleField,x,y,speed,shootCooldown,health,patternFilePath);
             case "octopus": return new Octopus(battleField,x,y,speed,shootCooldown,health,patternFilePath);
+            case"bug":return new Bug(battleField,x,y,speed,shootCooldown,health,patternFilePath);
+            case"skeleton": return new Skeleton(battleField,x,y,speed,shootCooldown,health,patternFilePath);
             default: return null;
         }
     }
@@ -126,6 +126,25 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
         if (health <= 0) {
             isDead = true;
         }
+    }
+    @Override
+    public boolean outsideDown() {
+        return false;
+    }
+
+    @Override
+    public boolean outsideUp() {
+        return false;
+    }
+
+    @Override
+    public boolean outsideRight() {
+        return false;
+    }
+
+    @Override
+    public boolean outsideLeft() {
+        return false;
     }
 
     public boolean isDead() {

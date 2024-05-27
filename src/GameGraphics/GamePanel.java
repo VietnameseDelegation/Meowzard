@@ -5,18 +5,17 @@ import UserInput.KeyInput;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 //inspirováno https://www.youtube.com/watch?v=om59cwR7psI&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=1
 public class GamePanel extends JPanel implements Runnable {
 //region Screen Settings
-    private final int originalTileSize = 16;
-    private final int scale = 3;
-    private final int tileSize = originalTileSize * scale; // one tile after scale
-    private final int maxScreenCol = 40;
-    private final int maxScreenRow = 12;
-    private final int screenWidth = tileSize * maxScreenCol;
-    private final int screenHeight = tileSize * maxScreenRow;
+    private final int screenWidth = 1440;
+    private final int screenHeight = 576;
     private final Image backround;
+    private Font font;
+
     //endregion
     private Thread gameThread;
     private KeyInput keyInput = new KeyInput();
@@ -27,8 +26,17 @@ public class GamePanel extends JPanel implements Runnable {
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setDoubleBuffered(true); //optimization stuff
         this.addKeyListener(keyInput);
+        setBackground(Color.PINK);
         setFocusable(true);//with this game panel can listen to your keys
         this.backround = loadImg();
+        InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream("Font/Deep Hero.ttf");
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT,inputStream).deriveFont(100f);
+        } catch (FontFormatException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void start(){
@@ -64,11 +72,18 @@ double nextDrawInterval = System.nanoTime() + drawInterval;
 
     public void paintComponent(Graphics graphics){ //built in method
         super.paintComponent(graphics);
-        Graphics2D g2 = (Graphics2D)graphics;//has more function so using that one
-        graphics.drawImage(backround,0,0,screenWidth,screenHeight,null);
+       Graphics2D g2 = (Graphics2D)graphics;//has more function so using that one
+        g2.setFont(font);
+        g2.setColor(Color.WHITE);
+        //graphics.drawImage(backround,0,0,screenWidth,screenHeight,null);
         battleField.draw(g2);
+        if (battleField.isStageClear()){
+            g2.drawString("STAGE CLEAR!",screenWidth/2,screenHeight/2);
+        }
+        if(battleField.isVictory()){
+            g2.drawString("Victory",screenWidth/2,screenHeight/2);
+        }
         g2.dispose();
-
     }
     public Image loadImg(){
         return new ImageIcon(Objects.requireNonNull(getClass().getResource("/Background/background.png"))).getImage();

@@ -7,6 +7,8 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public abstract class Entity {
+    protected int width;
+    protected int height;
     protected int x,y;
     protected int speed;
     protected BufferedImage bufferedImage;
