@@ -7,8 +7,10 @@ import java.text.ParseException;
 import java.util.LinkedList;
 
 public class WavesOfEnemies {
+
     public LinkedList<Enemy> loadWave(String filePath,BattleField battleField) {
         LinkedList<Enemy> wave = new LinkedList<>();
+        LinkedList<Integer> notLoadedStages = new LinkedList<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(filePath)); //"res/Coords/Pattern.csv"
             String s;
@@ -22,10 +24,13 @@ public class WavesOfEnemies {
                 int shootCooldown = Integer.parseInt(tokens[4]);
                 int health = Integer.parseInt(tokens[5]);
                 String patternFilepath = tokens[6];
-                wave.add(Enemy.createEnemy(choice,battleField,x,y,speed,shootCooldown,health,patternFilepath));
+                int score = Integer.parseInt(tokens[7]);
+                wave.add(Enemy.createEnemy(choice,battleField,x,y,speed,shootCooldown,health,patternFilepath,score));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (Exception e){
+            throw new ArrayIndexOutOfBoundsException();
         }
         return wave;
     }

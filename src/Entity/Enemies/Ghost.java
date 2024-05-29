@@ -8,8 +8,8 @@ import java.util.LinkedList;
 
 public class Ghost extends Enemy {
 
-    public Ghost(BattleField battleField,int x,int y,int speed,int shootCooldown,int health,String patternFilePath) {
-        super(battleField,x,y,speed,shootCooldown,health,patternFilePath);
+    public Ghost(BattleField battleField,int x,int y,int speed,int shootCooldown,int health,String patternFilePath,int score) {
+        super(battleField,x,y,speed,shootCooldown,health,patternFilePath,score);
         this.width = 32;
         this.height = 32;
         loadPng("ghost.png","ghostProjectile.png"); //change so the method is in entity by changing the input to the method to file path instead of file name

@@ -1,4 +1,4 @@
-choice,x,y,speed,shootCooldown,patternFilePath
+choice,x,y,speed,shootCooldown,patternFilePath,scoreAfterDefeat
 octopus,1000,100,5,100,5,res/Coords/rhombus.csv
 ghost,1050,100,5,100,3,res/Coords/trianglePattern.csv
 ghost,1100,100,5,100,2,res/Coords/hourGlassPattern.csv

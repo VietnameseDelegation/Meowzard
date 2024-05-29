@@ -15,18 +15,17 @@ public class GamePanel extends JPanel implements Runnable {
     private final int screenHeight = 576;
     private final Image backround;
     private Font font;
-
     //endregion
     private Thread gameThread;
-    private KeyInput keyInput = new KeyInput();
     private int fps = 60;
-    private BattleField battleField = new BattleField(keyInput);
+    private BattleField battleField;
 
-    public GamePanel() {
+    public GamePanel(BattleField battleField,KeyInput keyInput) {
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setDoubleBuffered(true); //optimization stuff
         this.addKeyListener(keyInput);
         setBackground(Color.PINK);
+        this.battleField = battleField;
         setFocusable(true);//with this game panel can listen to your keys
         this.backround = loadImg();
         InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream("Font/Deep Hero.ttf");
@@ -51,7 +50,18 @@ double nextDrawInterval = System.nanoTime() + drawInterval;
         while (gameThread != null){
             update();
             repaint(); //for some reason you call paintComponent() with this
-
+            if (battleField.isVictory()){
+                try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            //tady 2 linky z https://stackoverflow.com/questions/21365570/how-to-dispose-a-jpanel-jpanel1-dispose-or-equivalent
+                Component comp = SwingUtilities.getRoot(this);
+                ((Window) comp).dispose();
+                new MainMenu();
+                break;
+            }
             try {
                 double remainningTime = nextDrawInterval - System.nanoTime();
                 remainningTime = remainningTime/1000000;
@@ -73,16 +83,17 @@ double nextDrawInterval = System.nanoTime() + drawInterval;
     public void paintComponent(Graphics graphics){ //built in method
         super.paintComponent(graphics);
        Graphics2D g2 = (Graphics2D)graphics;//has more function so using that one
-        g2.setFont(font);
         g2.setColor(Color.WHITE);
         //graphics.drawImage(backround,0,0,screenWidth,screenHeight,null);
-        battleField.draw(g2);
-        if (battleField.isStageClear()){
-            g2.drawString("STAGE CLEAR!",screenWidth/2,screenHeight/2);
-        }
         if(battleField.isVictory()){
+            g2.setFont(font);
             g2.drawString("Victory",screenWidth/2,screenHeight/2);
         }
+        if (battleField.isStageClear()&&!battleField.isVictory()){
+            g2.setFont(font);
+            g2.drawString("STAGE CLEAR!",screenWidth/2,screenHeight/2);
+        }
+        battleField.draw(g2);
         g2.dispose();
     }
     public Image loadImg(){

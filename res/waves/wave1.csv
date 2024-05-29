@@ -1,4 +1,4 @@
-choice,x,y,speed,shootCooldown
-ghost,1000,100,5,100,5,res/Coords/Pattern.csv
-ghost,1050,100,5,100,3,res/Coords/Pattern.csv
-octopus,1100,100,5,100,2,res/Coords/Pattern.csv
+choice,x,y,speed,shootCooldown,health,patternFilePath,scoreAfterDefeat
+ghost,1000,100,5,100,5,res/Coords/Pattern.csv,10
+ghost,1050,100,5,100,3,res/Coords/Pattern.csv,10
+octopus,1100,100,5,100,2,res/Coords/Pattern.csv,10

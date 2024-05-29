@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Objects;
 
 // this is basically a blueprint for an enemy
@@ -24,14 +25,15 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
     protected BattleField battleField;
     protected boolean arrivedToDestination = false;
     protected BufferedImage projectile;
-    protected int scoreAfterDefeat; // load via file
-    public Enemy(BattleField battleField,int x,int y,int speed,int shootCooldown,int health,String patternFilePath){
+    protected int scoreAfterDefeat;// load via file
+    public Enemy(BattleField battleField,int x,int y,int speed,int shootCooldown,int health,String patternFilePath,int scoreAfterDefeat){
         this.x = x;
         this. y = y;
         this.speed = speed;
         this.battleField = battleField;
         this.health = health;
         this.shootCooldown = shootCooldown;
+        this.scoreAfterDefeat = scoreAfterDefeat;
         this.destination = new Coords[10];
         loadCoords(patternFilePath);
     }
@@ -51,7 +53,6 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
     @Override
     public void loadPng(String sprite,String projectileSprite) {
@@ -112,12 +113,12 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
             arrivedToDestination = true;
         }
     }
-    public static Enemy createEnemy(String choice,BattleField battleField,int x,int y,int speed,int shootCooldown,int health,String patternFilePath){
+    public static Enemy createEnemy(String choice,BattleField battleField,int x,int y,int speed,int shootCooldown,int health,String patternFilePath,int score){
         switch (choice){
-            case "ghost": return new Ghost(battleField,x,y,speed,shootCooldown,health,patternFilePath);
-            case "octopus": return new Octopus(battleField,x,y,speed,shootCooldown,health,patternFilePath);
-            case"bug":return new Bug(battleField,x,y,speed,shootCooldown,health,patternFilePath);
-            case"skeleton": return new Skeleton(battleField,x,y,speed,shootCooldown,health,patternFilePath);
+            case "ghost": return new Ghost(battleField,x,y,speed,shootCooldown,health,patternFilePath,score);
+            case "octopus": return new Octopus(battleField,x,y,speed,shootCooldown,health,patternFilePath,score);
+            case"bug":return new Bug(battleField,x,y,speed,shootCooldown,health,patternFilePath,score);
+            case"skeleton": return new Skeleton(battleField,x,y,speed,shootCooldown,health,patternFilePath,score);
             default: return null;
         }
     }
@@ -149,5 +150,9 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
 
     public boolean isDead() {
         return isDead;
+    }
+
+    public int getScoreAfterDefeat() {
+        return scoreAfterDefeat;
     }
 }

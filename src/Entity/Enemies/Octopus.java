@@ -6,8 +6,8 @@ import java.awt.*;
 import java.util.LinkedList;
 
 public class Octopus extends Enemy {
-    public Octopus(BattleField battleField,int x,int y,int speed,int shootCooldown,int health,String patterFilePath) {
-        super(battleField,x,y,speed,shootCooldown,health,patterFilePath);
+    public Octopus(BattleField battleField,int x,int y,int speed,int shootCooldown,int health,String patterFilePath,int score) {
+        super(battleField,x,y,speed,shootCooldown,health,patterFilePath,score);
         this.width = 32;
         this.height = 29;
         loadPng("octopus.png","octopusProjectile.png"); //change so the method is in entity by changing the input to the method to file path instead of file name

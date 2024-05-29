@@ -7,8 +7,8 @@ import java.awt.*;
 import java.util.LinkedList;
 
 public class Bug extends Enemy {
-    public Bug(BattleField battleField, int x, int y, int speed, int shootCooldown, int health, String patternFilePath) {
-        super(battleField, x, y, speed, shootCooldown, health, patternFilePath);
+    public Bug(BattleField battleField, int x, int y, int speed, int shootCooldown, int health, String patternFilePath,int score) {
+        super(battleField, x, y, speed, shootCooldown, health, patternFilePath,score);
         this.width = 86;
         this.height = 49;
         loadPng("bug.png","octopusProjectile.png"); //change so the method is in entity by changing the input to the method to file path instead of file name

@@ -28,10 +28,14 @@ public class BattleField {
     private WavesOfEnemies waves = new WavesOfEnemies();
     private boolean stageClear = false;
     private boolean victory = false;
+    private ArrayList<Integer> waveNotLoaded = new ArrayList<>();
+    private int totalScore = 0;
 
     public BattleField(KeyInput keyInput) {
         player = new Player(keyInput,this);
-        this.allWaves = loadWaves();
+        if (allWaves.isEmpty()) {
+            this.allWaves = loadWaves();
+        }
         waveNumber = 0;
         enemies = allWaves.get(waveNumber);
     }
@@ -62,8 +66,10 @@ public class BattleField {
             }
             if(e.isDead()){
                 enemiesToDelete.add(e);
-
             }
+        }
+        for(Enemy e:enemiesToDelete){
+            totalScore+=e.getScoreAfterDefeat();
         }
         enemies.removeAll(enemiesToDelete);
         for (Projectile p : projectiles) {
@@ -107,16 +113,21 @@ public class BattleField {
                 waveNumber++;
                 System.out.println("add");
             }catch (ArrayIndexOutOfBoundsException e){
+                waveNotLoaded.add(waveNumber);
                 waveNumber++;
             }
             catch (RuntimeException e){
                 //if waves of numbers is the same as numbers of files in package then return
-                System.out.println("there was a problem loading waves"+waveNumber);
+                System.out.println("there was a problem loading waves"+waveNotLoaded);
                 e.printStackTrace();
                 return allWaves;
             }
         }
         return null;
+    }
+    public ArrayList<Integer> checkWaves(){
+        loadWaves();
+        return waveNotLoaded;
     }
 
     public boolean isStageClear() {
@@ -133,6 +144,14 @@ public class BattleField {
 
     public void setVictory(boolean victory) {
         this.victory = victory;
+    }
+
+    public int getTotalScore() {
+        return totalScore;
+    }
+
+    public ArrayList<Integer> getWaveNotLoaded() {
+        return waveNotLoaded;
     }
 }
 

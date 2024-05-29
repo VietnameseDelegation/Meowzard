@@ -13,7 +13,7 @@ public class Player extends Entity {
     private KeyInput keyInput;
     private BufferedImage projectile;
     private int health;
-    private int shootCooldown = 10;
+    private int shootCooldown =0 ;
     private int shootCounter = 0;
 
     public Player(KeyInput keyInput, BattleField battleField) {
@@ -60,6 +60,11 @@ public class Player extends Entity {
 
     public void draw(Graphics2D g2) {
         g2.drawImage(bufferedImage, x, y, 85, 85, null);
+        g2.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+        String s = String.format("Health: "+health, Font.BOLD, Font.PLAIN, Font.ITALIC);
+       g2.drawString("Score: "+battleField.getTotalScore(),100,50);
+        g2.drawString(s,100,80);
+
     }
 
     public void loadPng(String filename, String projectileSprite) { //"/PlayerModel/"+filename "/Projectile/"+projectileSprite
