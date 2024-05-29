@@ -28,6 +28,7 @@ public class BattleField {
     private WavesOfEnemies waves = new WavesOfEnemies();
     private boolean stageClear = false;
     private boolean victory = false;
+    private boolean gameOver = false;
     private ArrayList<Integer> waveNotLoaded = new ArrayList<>();
     private int totalScore = 0;
 
@@ -100,6 +101,9 @@ public class BattleField {
                 victory = true;
             }
         }
+        if (player.isDead()){
+            gameOver = true;
+        }
     }
     public LinkedList<Projectile> getProjectiles() {
         return projectiles;
@@ -152,6 +156,10 @@ public class BattleField {
 
     public ArrayList<Integer> getWaveNotLoaded() {
         return waveNotLoaded;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
     }
 }
 

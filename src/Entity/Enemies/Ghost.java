@@ -7,7 +7,6 @@ import java.awt.*;
 import java.util.LinkedList;
 
 public class Ghost extends Enemy {
-
     public Ghost(BattleField battleField,int x,int y,int speed,int shootCooldown,int health,String patternFilePath,int score) {
         super(battleField,x,y,speed,shootCooldown,health,patternFilePath,score);
         this.width = 32;

@@ -13,8 +13,9 @@ public class Player extends Entity {
     private KeyInput keyInput;
     private BufferedImage projectile;
     private int health;
-    private int shootCooldown =0 ;
+    private int shootCooldown =0;
     private int shootCounter = 0;
+    private boolean dead=false;
 
     public Player(KeyInput keyInput, BattleField battleField) {
         this.health = 3;
@@ -105,7 +106,11 @@ public class Player extends Entity {
     public void hurt() {
         health--;
         if (health <= 0) {
-            System.out.println("ded"); //replace with play again thing
+            dead = true; //replace with play again thing
         }
+    }
+
+    public boolean isDead() {
+        return dead;
     }
 }

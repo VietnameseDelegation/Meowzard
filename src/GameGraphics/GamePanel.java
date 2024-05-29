@@ -62,6 +62,17 @@ double nextDrawInterval = System.nanoTime() + drawInterval;
                 new MainMenu();
                 break;
             }
+            if (battleField.isGameOver()){
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                Component comp = SwingUtilities.getRoot(this);
+                ((Window) comp).dispose();
+                new MainMenu();
+                break;
+            }
             try {
                 double remainningTime = nextDrawInterval - System.nanoTime();
                 remainningTime = remainningTime/1000000;
@@ -84,14 +95,17 @@ double nextDrawInterval = System.nanoTime() + drawInterval;
         super.paintComponent(graphics);
        Graphics2D g2 = (Graphics2D)graphics;//has more function so using that one
         g2.setColor(Color.WHITE);
+        g2.setFont(font);
         //graphics.drawImage(backround,0,0,screenWidth,screenHeight,null);
         if(battleField.isVictory()){
-            g2.setFont(font);
+
             g2.drawString("Victory",screenWidth/2,screenHeight/2);
         }
         if (battleField.isStageClear()&&!battleField.isVictory()){
-            g2.setFont(font);
             g2.drawString("STAGE CLEAR!",screenWidth/2,screenHeight/2);
+        }
+        if (battleField.isGameOver()){
+            g2.drawString("Dead :(",screenWidth/2,screenHeight/2);
         }
         battleField.draw(g2);
         g2.dispose();
