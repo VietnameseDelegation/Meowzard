@@ -68,7 +68,7 @@ double nextDrawInterval = System.nanoTime() + drawInterval;
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                Component comp = SwingUtilities.getRoot(this);
+                    Component comp = SwingUtilities.getRoot(this);
                 ((Window) comp).dispose();
                 new MainMenu();
                 break;

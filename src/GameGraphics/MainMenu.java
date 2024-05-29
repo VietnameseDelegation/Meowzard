@@ -72,7 +72,6 @@ public class MainMenu extends JFrame {
         window.pack();
         window.setLocationRelativeTo(null);
         window.setVisible(true);
-        setVisible(false);
         gp.start();
         Component comp = SwingUtilities.getRoot(this);
         ((Window) comp).dispose();
@@ -91,8 +90,14 @@ public class MainMenu extends JFrame {
     }
     public void checkWaves(){
         ArrayList<Integer> indexes = battleField.getWaveNotLoaded();
-        for(int i:indexes){
-            System.out.println("wave"+i+" cannot load");
+        int allWavesSize = indexes.size()+battleField.getAllWaves().size();
+       StatusPanel status = new StatusPanel("status",allWavesSize);
+        for(int i = 0; i<allWavesSize; i++){
+            if (indexes.contains(i)){
+                status.add(status.writeBrokenFiles(i));
+            }else {
+                status.add(status.writeCorrextFiles(i));
+            }
         }
     }
     public void stylize(JButton jButton){

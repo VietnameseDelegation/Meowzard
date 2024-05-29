@@ -13,7 +13,7 @@ public class Player extends Entity {
     private KeyInput keyInput;
     private BufferedImage projectile;
     private int health;
-    private int shootCooldown =0;
+    private int shootCooldown =4;
     private int shootCounter = 0;
     private boolean dead=false;
 

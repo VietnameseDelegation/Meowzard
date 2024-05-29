@@ -161,5 +161,9 @@ public class BattleField {
     public boolean isGameOver() {
         return gameOver;
     }
+
+    public ArrayList<LinkedList<Enemy>> getAllWaves() {
+        return allWaves;
+    }
 }
 
