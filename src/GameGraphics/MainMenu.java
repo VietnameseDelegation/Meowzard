@@ -34,8 +34,6 @@ public class MainMenu extends JFrame {
         JButton exitButton = new JButton("Exit");
         JButton statusButton = new JButton("Status");
 
-        // Set the preferred size of the buttons to be the same
-        Dimension buttonSize = new Dimension(300, 100); // Half the width and height of the window
         stylize(newGameButton);
         stylize(exitButton);
         stylize(statusButton);
@@ -52,9 +50,9 @@ public class MainMenu extends JFrame {
         backgroundLabel.add(Box.createRigidArea(new Dimension(0, 200))); // Adjust the spacing as needed
         backgroundLabel.add(newGameButton);
         backgroundLabel.add(Box.createRigidArea(new Dimension(0, 20)));
-        backgroundLabel.add(exitButton);
-        backgroundLabel.add(Box.createRigidArea(new Dimension(0, 20))); // Adjust the spacing as needed
         backgroundLabel.add(statusButton);
+        backgroundLabel.add(Box.createRigidArea(new Dimension(0, 20))); // Adjust the spacing as needed
+        backgroundLabel.add(exitButton);
         backgroundLabel.add(Box.createRigidArea(new Dimension(0, 200)));
         // Add the background label to the frame
         setContentPane(backgroundLabel);

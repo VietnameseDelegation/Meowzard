@@ -3,11 +3,16 @@ package BattleField;
 import Entity.*;
 import Entity.Enemies.Enemy;
 import Entity.Player;
+import Entity.PowerUp.Heal;
+import Entity.PowerUp.PowerUp;
+import Entity.PowerUp.ProjectileSizeUp;
+import Entity.PowerUp.ShootSpeedUp;
 import Entity.Projectile;
 import UserInput.KeyInput;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class BattleField {
     /*
@@ -25,12 +30,14 @@ public class BattleField {
     private LinkedList<Projectile> projectiles = new LinkedList<>();// can be deleted but for now leave as it is
     private ArrayList<LinkedList<Enemy>> allWaves = new ArrayList<>();
     private LinkedList<Enemy> enemies = new LinkedList<>();
+    private LinkedList<Entity> powerUp = new LinkedList<>();
     private WavesOfEnemies waves = new WavesOfEnemies();
     private boolean stageClear = false;
     private boolean victory = false;
     private boolean gameOver = false;
     private ArrayList<Integer> waveNotLoaded = new ArrayList<>();
     private int totalScore = 0;
+    private Random rand = new Random();
 
     public BattleField(KeyInput keyInput) {
         player = new Player(keyInput,this);
@@ -48,6 +55,9 @@ public class BattleField {
         for (Projectile p : projectiles) {
             p.draw(g2);
         }
+        for (Entity entity :powerUp){
+            entity.draw(g2);
+        }
         player.draw(g2);
     }
 
@@ -56,6 +66,15 @@ public class BattleField {
         if (!player.isPaused()){
         ArrayList<Projectile> projectilesToDelete = new ArrayList<>();
         ArrayList<Enemy> enemiesToDelete = new ArrayList<>();
+        ArrayList<Entity> powerUpsToDelete = new ArrayList<>();
+            for (Entity entity : powerUp){
+                entity.update();
+                if (entity.getRectangle().intersects(player.getRectangle())){
+                    PowerUp p = (PowerUp) entity;
+                    p.applyPowerUp();
+                    powerUpsToDelete.add(entity);
+                }
+            }
         for (Enemy e : enemies) {
             e.update();
             if (e.getRectangle().intersects(player.getRectangle())) {
@@ -69,6 +88,10 @@ public class BattleField {
             }
             if(e.isDead()){
                 enemiesToDelete.add(e);
+                int i = rand.nextInt(7);
+                if (i < 4) {
+                    powerUp.add(new ShootSpeedUp(player,e.getX(),e.getY()));
+                }
             }
         }
         for(Enemy e:enemiesToDelete){
@@ -86,6 +109,7 @@ public class BattleField {
             }
         }
         projectiles.removeAll(projectilesToDelete);
+            powerUp.removeAll(powerUpsToDelete);
 
         if (enemies.isEmpty()&&!victory) {
             stageClear = true;
@@ -117,15 +141,11 @@ public class BattleField {
             try {
                 allWaves.add(waves.loadWave("res/waves/wave" + waveNumber + ".csv", this));
                 waveNumber++;
-                System.out.println("add");
             }catch (ArrayIndexOutOfBoundsException e){
                 waveNotLoaded.add(waveNumber);
                 waveNumber++;
             }
             catch (RuntimeException e){
-                //if waves of numbers is the same as numbers of files in package then return
-                System.out.println("there was a problem loading waves"+waveNotLoaded);
-                e.printStackTrace();
                 return allWaves;
             }
         }
@@ -143,15 +163,9 @@ public class BattleField {
     public void setStageClear(boolean stageClear) {
         this.stageClear = stageClear;
     }
-
     public boolean isVictory() {
         return victory;
     }
-
-    public void setVictory(boolean victory) {
-        this.victory = victory;
-    }
-
     public int getTotalScore() {
         return totalScore;
     }

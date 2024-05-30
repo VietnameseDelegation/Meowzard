@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Objects;
 
 // this is basically a blueprint for an enemy
@@ -19,13 +18,13 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
     protected int moveCounter = 0; //remove
     protected int shootCounter = 0;
     protected int shootCooldown;
-    protected int index;
+    protected int indexOfDestination;
     protected boolean isDead;
     protected Coords[] destination;
     protected BattleField battleField;
     protected boolean arrivedToDestination = false;
     protected BufferedImage projectile;
-    protected int scoreAfterDefeat;// load via file
+    protected int scoreAfterDefeat;
     public Enemy(BattleField battleField,int x,int y,int speed,int shootCooldown,int health,String patternFilePath,int scoreAfterDefeat){
         this.x = x;
         this. y = y;
@@ -76,17 +75,17 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
             shootCounter++;
         }
         if (moveCounter == 0) {
-            Coords c = destination[index];
+            Coords c = destination[indexOfDestination];
             if (c == null){
-                index = 0;
-                c=destination[index];
+                indexOfDestination = 0;
+                c=destination[indexOfDestination];
             }
             if (!arrivedToDestination) {
                 move(c.getX(),c.getY());
             }else {
-                index++;
-                if (index == destination.length) {
-                    index = 0;
+                indexOfDestination++;
+                if (indexOfDestination == destination.length) {
+                    indexOfDestination = 0;
                 }
                 arrivedToDestination = false;
             }
@@ -140,7 +139,7 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
 
     @Override
     public boolean outsideRight() {
-        return false;
+        return x > 1355;
     }
 
     @Override

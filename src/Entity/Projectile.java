@@ -30,8 +30,6 @@ public class Projectile extends Entity {
             x += speed;
         }
     }
-    public void loadPng(String filename,String s){
-    }
 
 
     @Override
