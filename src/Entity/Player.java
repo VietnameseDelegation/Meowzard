@@ -73,10 +73,9 @@ public class Player extends Entity {
             g2.setFont(new Font("TimesRoman", Font.PLAIN, 48));
             g2.drawString("Pause",1000,250);
         }
-
     }
 
-    public void loadPng(String filename, String projectileSprite) { //"/PlayerModel/"+filename "/Projectile/"+projectileSprite
+    public void loadPng(String filename, String projectileSprite) {
         try {
             bufferedImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/PlayerModel/" + filename)));
             projectile = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Projectiles/" + projectileSprite)));

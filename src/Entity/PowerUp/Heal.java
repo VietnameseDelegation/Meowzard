@@ -18,9 +18,4 @@ public class Heal extends PowerUp {
     public void applyPowerUp() {
         player.setCurrentHealth(3);
     }
-
-    @Override
-    public void removePowerUp() {
-
-    }
 }

@@ -90,7 +90,7 @@ public class BattleField {
                 enemiesToDelete.add(e);
                 int i = rand.nextInt(7);
                 if (i < 4) {
-                    powerUp.add(new ShootSpeedUp(player,e.getX(),e.getY()));
+                    powerUp.add(PowerUp.createPowerUp(i,player,e.getX(),e.getY()));
                 }
             }
         }
