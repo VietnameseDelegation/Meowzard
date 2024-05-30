@@ -16,7 +16,6 @@ public class Player extends Entity {
     private int shootCooldown =4;
     private int shootCounter = 0;
     private boolean dead=false;
-
     public Player(KeyInput keyInput, BattleField battleField) {
         this.health = 3;
         this.keyInput = keyInput;
@@ -29,34 +28,36 @@ public class Player extends Entity {
     }
 
     public void update() {
-        if (keyInput.up) {
-            if (outsideUp()) {
-                y -= speed;
+        if (!keyInput.pause){
+            if (keyInput.up) {
+                if (outsideUp()) {
+                    y -= speed;
+                }
             }
-        }
-        if (keyInput.down) {
-            if (!outsideDown()) {
-                y += speed;
+            if (keyInput.down) {
+                if (!outsideDown()) {
+                    y += speed;
+                }
             }
-        }
-        if (keyInput.left) {
-            if (outsideLeft()) {
-                x -= speed;
+            if (keyInput.left) {
+                if (outsideLeft()) {
+                    x -= speed;
+                }
             }
-        }
-        if (keyInput.right) {
-            if (!outsideRight()) {
-                x += speed;
+            if (keyInput.right) {
+                if (!outsideRight()) {
+                    x += speed;
+                }
             }
-        }
-        if (keyInput.shoot) {
-            if (shootCooldown < shootCounter) {
-                shoot(battleField.getProjectiles());
-                shootCounter = 0;
+            if (keyInput.shoot) {
+                if (shootCooldown < shootCounter) {
+                    shoot(battleField.getProjectiles());
+                    shootCounter = 0;
+                }
             }
+            shootCounter++;
+            rectangle.setRect(x + 17, y + 17, 52, 42);
         }
-        shootCounter++;
-        rectangle.setRect(x + 17, y + 17, 52, 42);
     }
 
     public void draw(Graphics2D g2) {
@@ -65,6 +66,10 @@ public class Player extends Entity {
         String s = String.format("Health: "+health, Font.BOLD, Font.PLAIN, Font.ITALIC);
        g2.drawString("Score: "+battleField.getTotalScore(),100,50);
         g2.drawString(s,100,80);
+        if(keyInput.pause){
+            g2.setFont(new Font("TimesRoman", Font.PLAIN, 48));
+            g2.drawString("Pause",1000,250);
+        }
 
     }
 
@@ -112,5 +117,9 @@ public class Player extends Entity {
 
     public boolean isDead() {
         return dead;
+    }
+
+    public boolean isPaused() {
+        return keyInput.pause;
     }
 }

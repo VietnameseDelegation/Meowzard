@@ -52,6 +52,8 @@ public class BattleField {
     }
 
     public void update() {
+        player.update();
+        if (!player.isPaused()){
         ArrayList<Projectile> projectilesToDelete = new ArrayList<>();
         ArrayList<Enemy> enemiesToDelete = new ArrayList<>();
         for (Enemy e : enemies) {
@@ -84,7 +86,6 @@ public class BattleField {
             }
         }
         projectiles.removeAll(projectilesToDelete);
-        player.update();
 
         if (enemies.isEmpty()&&!victory) {
             stageClear = true;
@@ -103,6 +104,7 @@ public class BattleField {
         }
         if (player.isDead()){
             gameOver = true;
+        }
         }
     }
     public LinkedList<Projectile> getProjectiles() {

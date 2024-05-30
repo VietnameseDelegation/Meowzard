@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyInput implements KeyListener {
-public boolean up,down,left,right,shoot;
+public boolean up,down,left,right,shoot,pause;
     @Override
     public void keyTyped(KeyEvent e) {
 //will not be used :(
@@ -19,6 +19,7 @@ public boolean up,down,left,right,shoot;
             case KeyEvent.VK_A -> left=true;
             case KeyEvent.VK_D -> right=true;
             case KeyEvent.VK_0 -> shoot=true;
+            case KeyEvent.VK_ESCAPE -> pause=!pause;
         }
     }
 
