@@ -15,7 +15,10 @@ public class Projectile extends Entity {
         this.enemy = enemy;
         rectangle = new Rectangle(this.x,this.y,width,height);
     }
-
+    /**
+     * Draws the game elements onto the screen.
+     * @param g the Graphics2D object used for drawing
+     */
     @Override
     public void draw(Graphics2D g) {
         g.drawImage(bufferedImage,x,y,width,height,null); //player offset 75x 45y
@@ -30,28 +33,6 @@ public class Projectile extends Entity {
             x += speed;
         }
     }
-
-
-    @Override
-    public boolean outsideDown() {
-        return false;
-    }
-
-    @Override
-    public boolean outsideUp() {
-        return false;
-    }
-
-    @Override
-    public boolean outsideRight() {
-        return this.x>1400;
-    }
-
-    @Override
-    public boolean outsideLeft() {
-        return this.x<0;
-    }
-
     public boolean isEnemy() {
         return enemy;
     }

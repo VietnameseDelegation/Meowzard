@@ -2,10 +2,6 @@ package Entity.PowerUp;
 
 import Entity.*;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.io.IOException;
-import java.util.Objects;
 
 public class Heal extends PowerUp {
 
@@ -16,6 +12,6 @@ public class Heal extends PowerUp {
 
     @Override
     public void applyPowerUp() {
-        player.setCurrentHealth(3);
+        player.heal(3);
     }
 }

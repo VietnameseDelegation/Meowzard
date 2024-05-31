@@ -3,14 +3,15 @@ import Entity.Enemies.Enemy;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.LinkedList;
 
 public class WavesOfEnemies {
 
+    /**
+     * Parses enemies from the csv file in the "res/waves/" and puts them into a collection LinkedList<Enemy>
+     * */
     public LinkedList<Enemy> loadWave(String filePath,BattleField battleField) {
         LinkedList<Enemy> wave = new LinkedList<>();
-        LinkedList<Integer> notLoadedStages = new LinkedList<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(filePath)); //"res/Coords/Pattern.csv"
             String s;

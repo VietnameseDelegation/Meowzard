@@ -1,9 +1,8 @@
 package Entity.PowerUp;
 
-import Entity.Entity;
 import Entity.Player;
 
-import java.awt.*;
+
 
 public class HealthUp extends PowerUp {
     public HealthUp(Player player, int x, int y) {

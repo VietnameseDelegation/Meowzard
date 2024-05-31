@@ -1,6 +1,6 @@
 package GameGraphics;
+
 import BattleField.BattleField;
-import Entity.Player;
 import UserInput.KeyInput;
 
 import javax.swing.*;
@@ -8,109 +8,137 @@ import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
-//inspirováno https://www.youtube.com/watch?v=om59cwR7psI&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=1
+
+/**
+ * The GamePanel class represents the main panel for the game, handling the game loop and rendering
+ * This class is inspired by the tutorial series: https://www.youtube.com/watch?v=om59cwR7psI&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=1
+ */
 public class GamePanel extends JPanel implements Runnable {
-//region Screen Settings
+    //region Screen Settings
     private final int screenWidth = 1440;
     private final int screenHeight = 576;
-    private final Image backround;
-    private Font font;
+    private final Font font;
+    private final int fps = 60;
     //endregion
     private Thread gameThread;
-    private int fps = 60;
-    private BattleField battleField;
+    private final BattleField battleField;
 
-    public GamePanel(BattleField battleField,KeyInput keyInput) {
-        this.setPreferredSize(new Dimension(screenWidth,screenHeight));
-        this.setDoubleBuffered(true); //optimization stuff
+    /**
+     * Constructs a new GamePanel with the specified BattleField and KeyInput.
+     *
+     * @param battleField The BattleField instance representing the game state.
+     * @param keyInput The KeyInput instance for handling user input.
+     */
+    public GamePanel(BattleField battleField, KeyInput keyInput) {
+        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
+        this.setDoubleBuffered(true); // Optimization for smoother rendering
         this.addKeyListener(keyInput);
         setBackground(Color.PINK);
         this.battleField = battleField;
-        setFocusable(true);//with this game panel can listen to your keys
-        this.backround = loadImg();
+        setFocusable(true); // Allows the panel to receive keyboard input
+        Image background = loadImg();
         InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream("Font/Deep Hero.ttf");
         try {
-            font = Font.createFont(Font.TRUETYPE_FONT,inputStream).deriveFont(100f);
-        } catch (FontFormatException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+            font = Font.createFont(Font.TRUETYPE_FONT, inputStream).deriveFont(100f);
+        } catch (FontFormatException | IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void start(){
+    /**
+     * Starts the game thread.
+     */
+    public void start() {
         gameThread = new Thread(this);
         gameThread.start();
     }
+
+    /**
+     * The main game loop, which updates and repaints the game state at a fixed FPS.
+     */
     @Override
     public void run() {
-        // game loop that consist of update and draw this happens 60 times per sec (if 60 FPS)
-double drawInterval = 1000000000/fps; //we have to do it so our charachter doesnt get flung to the stratophere
-double nextDrawInterval = System.nanoTime() + drawInterval;
-        while (gameThread != null){
+        double drawInterval = (double) 1000000000 / fps; // Calculate the interval between frames
+        double nextDrawInterval = System.nanoTime() + drawInterval;
+        while (gameThread != null) {
             update();
-            repaint(); //for some reason you call paintComponent() with this
-            if (battleField.isVictory()){
-                try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            //tady 2 linky z https://stackoverflow.com/questions/21365570/how-to-dispose-a-jpanel-jpanel1-dispose-or-equivalent
-                Component comp = SwingUtilities.getRoot(this);
-                ((Window) comp).dispose();
-                new MainMenu();
-                break;
-            }
-            if (battleField.isGameOver()){
+            repaint(); // Calls paintComponent()
+
+            if (battleField.isVictory()) {
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                    Component comp = SwingUtilities.getRoot(this);
+                // Dispose the current window and open the main menu
+                Component comp = SwingUtilities.getRoot(this);
                 ((Window) comp).dispose();
                 new MainMenu();
                 break;
             }
-            try {
-                double remainningTime = nextDrawInterval - System.nanoTime();
-                remainningTime = remainningTime/1000000;
 
-                if (remainningTime<0){
-                    remainningTime=0;
+            if (battleField.isGameOver()) {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                // Dispose the current window and open the main menu
+                Component comp = SwingUtilities.getRoot(this);
+                ((Window) comp).dispose();
+                new MainMenu();
+                break;
+            }
+
+            try {
+                double remainingTime = nextDrawInterval - System.nanoTime();
+                remainingTime = remainingTime / 1000000;
+
+                if (remainingTime < 0) {
+                    remainingTime = 0;
                 }
                 nextDrawInterval += drawInterval;
-                Thread.sleep((long)remainningTime);
+                Thread.sleep((long) remainingTime);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
     }
-    public void update(){
+
+    /**
+     * Updates the game state.
+     */
+    public void update() {
         battleField.update();
     }
 
-    public void paintComponent(Graphics graphics){ //built in method
+    /**
+     * Renders the game state.
+     *
+     * @param graphics The Graphics object to draw on.
+     */
+    @Override
+    public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-       Graphics2D g2 = (Graphics2D)graphics;//has more function so using that one
+        Graphics2D g2 = (Graphics2D) graphics; // Use Graphics2D for more functionality
         g2.setColor(Color.WHITE);
         g2.setFont(font);
-        //graphics.drawImage(backround,0,0,screenWidth,screenHeight,null);
-        if(battleField.isVictory()){
-
-            g2.drawString("Victory",screenWidth/2,screenHeight/2);
-        }
-        if (battleField.isStageClear()&&!battleField.isVictory()){
-            g2.drawString("STAGE CLEAR!",screenWidth/2,screenHeight/2);
-        }
-        if (battleField.isGameOver()){
-            g2.drawString("Dead :(",screenWidth/2,screenHeight/2);
+        if (battleField.isVictory()) {
+            g2.drawString("Victory", screenWidth / 2, screenHeight / 2);
+        } else if (battleField.isStageClear() && !battleField.isVictory()) {
+            g2.drawString("STAGE CLEAR!", screenWidth / 2, screenHeight / 2);
+        } else if (battleField.isGameOver()) {
+            g2.drawString("Dead :(", screenWidth / 2, screenHeight / 2);
         }
         battleField.draw(g2);
         g2.dispose();
     }
-    public Image loadImg(){
+
+    /**
+     * Loads the background image.
+     * @return The loaded Image object.
+     */
+    public Image loadImg() {
         return new ImageIcon(Objects.requireNonNull(getClass().getResource("/Background/background.png"))).getImage();
     }
 }

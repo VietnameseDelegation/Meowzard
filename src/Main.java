@@ -1,7 +1,5 @@
-import GameGraphics.GamePanel;
-import GameGraphics.MainMenu;
 
-import javax.swing.*;
+import GameGraphics.MainMenu;
 
 public class Main {
     public static void main(String[] args) {

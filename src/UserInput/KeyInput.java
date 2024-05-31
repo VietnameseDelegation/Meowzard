@@ -7,7 +7,6 @@ public class KeyInput implements KeyListener {
 public boolean up,down,left,right,shoot,pause;
     @Override
     public void keyTyped(KeyEvent e) {
-//will not be used :(
     }
 
     @Override

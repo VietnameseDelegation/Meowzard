@@ -10,17 +10,18 @@ import java.io.IOException;
 import java.util.*;
 
 public class Player extends Entity {
-    private KeyInput keyInput;
+    private final KeyInput keyInput;
     private BufferedImage projectile;
     private int maxHealth;
     private int currentHealth;
     private int shootCooldown =4;
     private int shootCounter = 0;
     private int scaleOfProjectile = 2;
-    private boolean dead=false;
+    private boolean dead = false;
+
     public Player(KeyInput keyInput, BattleField battleField) {
-        this.currentHealth = 10;
-        this.maxHealth = 10;
+        this.currentHealth =1000 ;
+        this.maxHealth = 1000;
         this.keyInput = keyInput;
         this.battleField = battleField;
         x = 100;
@@ -29,40 +30,46 @@ public class Player extends Entity {
         loadPng("player.png", "playerProjectile.png");
         rectangle = new Rectangle(x + 17, y + 17, 52, 42);
     }
-
-    public void update() {
-        if (!keyInput.pause){
-            if (keyInput.up) {
-                if (outsideUp()) {
-                    y -= speed;
+    /**
+     * Updates the game state based on user input and other conditions.
+     * Handles movement, shooting, and updates the position of the hitbox.
+     */
+        public void update() {
+            if (!keyInput.pause){
+                if (keyInput.up) {
+                    if (outsideUp()) {
+                        y -= speed;
+                    }
                 }
-            }
-            if (keyInput.down) {
-                if (!outsideDown()) {
-                    y += speed;
+                if (keyInput.down) {
+                    if (!outsideDown()) {
+                        y += speed;
+                    }
                 }
-            }
-            if (keyInput.left) {
-                if (outsideLeft()) {
-                    x -= speed;
+                if (keyInput.left) {
+                    if (outsideLeft()) {
+                        x -= speed;
+                    }
                 }
-            }
-            if (keyInput.right) {
-                if (!outsideRight()) {
-                    x += speed;
+                if (keyInput.right) {
+                    if (!outsideRight()) {
+                        x += speed;
+                    }
                 }
-            }
-            if (keyInput.shoot) {
-                if (shootCooldown < shootCounter) {
-                    shoot(battleField.getProjectiles());
-                    shootCounter = 0;
+                if (keyInput.shoot) {
+                    if (shootCooldown < shootCounter) {
+                        shoot(battleField.getProjectiles());
+                        shootCounter = 0;
+                    }
                 }
+                shootCounter++;
+                rectangle.setRect(x + 17, y + 17, 52, 42);
             }
-            shootCounter++;
-            rectangle.setRect(x + 17, y + 17, 52, 42);
         }
-    }
-
+    /**
+     * Draws the game elements onto the screen.
+     * @param g2 the Graphics2D object used for drawing
+     */
     public void draw(Graphics2D g2) {
         g2.drawImage(bufferedImage, x, y, 85, 85, null);
         g2.setFont(new Font("TimesRoman", Font.PLAIN, 20));
@@ -74,7 +81,9 @@ public class Player extends Entity {
             g2.drawString("Pause",1000,250);
         }
     }
-
+/**
+ * Loads png images for the player and projectile sprites.
+ */
     public void loadPng(String filename, String projectileSprite) {
         try {
             bufferedImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/PlayerModel/" + filename)));
@@ -83,33 +92,17 @@ public class Player extends Entity {
             throw new RuntimeException(e);
         }
     }
-
+/**
+ * makes a projectile put it in a LinkedList to update in the battlefield
+ * */
     public void shoot(LinkedList<Projectile> projectiles) {
         Projectile p = new Projectile(x + 40, y + 30, 10, projectile, false,18*scaleOfProjectile,4*scaleOfProjectile);
         projectiles.add(p);
     }
 
-    @Override
-    public boolean outsideDown() {
-        return y > 500;
-    }
-
-    @Override
-
-    public boolean outsideUp() {
-        return y > -9;
-    }
-
-    @Override
-    public boolean outsideRight() {
-        return x > 1355;
-    }
-
-    @Override
-    public boolean outsideLeft() {
-        return x > -9;
-    }
-
+/**
+ * decrements current health and if its 0 boolean dead is true
+ * */
     public void hurt() {
         currentHealth--;
         if (currentHealth <= 0) {
@@ -117,42 +110,91 @@ public class Player extends Entity {
         }
     }
 
+    /**
+     * Returns whether the player is dead.
+     *
+     * @return {@code true} if the player is dead, {@code false} player is alive.
+     */
     public boolean isDead() {
         return dead;
     }
 
+    /**
+     * Returns whether the game is paused.
+     *
+     * @return {@code true} if the game is paused, {@code false} game is unpaused.
+     */
     public boolean isPaused() {
         return keyInput.pause;
     }
-
-    public void setCurrentHealth(int amountOfHeal) {
+    /**
+     * Heals the player by a specified amount.
+     * This method increases the player's current health by the specified amount. If the resulting health
+     * exceeds the maximum health, the current health is set to the maximum health.
+     *
+     *
+     * @param amountOfHeal the amount of health to restore.
+     */
+    public void heal(int amountOfHeal) {
         this.currentHealth += amountOfHeal;
         if (currentHealth > maxHealth) {
             currentHealth = maxHealth;
         }
     }
+    /**
+     * Increases the maximum health by a specified amount.
+     *
+     * @param maxHealth the amount to increase the maximum health by
+     */
     public void increaseMaxHealth(int maxHealth) {
         this.maxHealth += maxHealth;
     }
-    public void shootSpeedup(){
+
+    /**
+     * Speeds up the shooting by setting the shoot cooldown to a faster value.
+     */
+    public void shootSpeedup() {
         setShootCooldown(2);
     }
-    public void shootSpeedDown(){
+
+    /**
+     * Slows down the shooting by setting the shoot cooldown to a slower value.
+     */
+    public void shootSpeedDown() {
         setShootCooldown(4);
     }
-    public void increaseProjectileScale(){
+
+    /**
+     * Increases the scale of the projectile.
+     */
+    public void increaseProjectileScale() {
         setScaleOfProjectile(3);
     }
-    public void decreaseProjectileScale(){
+
+    /**
+     * Decreases the scale of the projectile.
+     */
+    public void decreaseProjectileScale() {
         setScaleOfProjectile(2);
     }
 
+    /**
+     * Sets the scale of the projectile to a specified value.
+     *
+     * @param scaleOfProjectile the new scale of the projectile
+     */
     public void setScaleOfProjectile(int scaleOfProjectile) {
         this.scaleOfProjectile = scaleOfProjectile;
     }
 
+    /**
+     * Sets the shoot cooldown to a specified value.
+     *
+     * @param shootCooldown the new shoot cooldown
+     */
     public void setShootCooldown(int shootCooldown) {
         this.shootCooldown = shootCooldown;
     }
+
 
 }

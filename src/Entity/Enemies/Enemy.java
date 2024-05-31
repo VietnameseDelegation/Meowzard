@@ -12,10 +12,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Objects;
 
-// this is basically a blueprint for an enemy
+/**
+ * this is a blueprint for an enemy
+ * */
 public abstract class Enemy extends Entity implements IEnemyMoves {
     protected int health;
-    protected int moveCounter = 0; //remove
     protected int shootCounter = 0;
     protected int shootCooldown;
     protected int indexOfDestination;
@@ -25,6 +26,7 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
     protected boolean arrivedToDestination = false;
     protected BufferedImage projectile;
     protected int scoreAfterDefeat;
+
     public Enemy(BattleField battleField,int x,int y,int speed,int shootCooldown,int health,String patternFilePath,int scoreAfterDefeat){
         this.x = x;
         this. y = y;
@@ -36,7 +38,9 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
         this.destination = new Coords[10];
         loadCoords(patternFilePath);
     }
-
+/**
+ * loads their moving pattern
+ * */
     public void loadCoords(String filePath){
         try {
             BufferedReader br = new BufferedReader(new FileReader(filePath)); //"res/Coords/Pattern.csv"
@@ -53,6 +57,9 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * Loads Png images for the enemy and projectile sprites.
+     */
     @Override
     public void loadPng(String sprite,String projectileSprite) {
         try {
@@ -62,19 +69,27 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * Draws the game elements onto the screen.
+     * @param g the Graphics2D object used for drawing
+     */
     @Override
     public void draw(Graphics2D g) {
         g.drawImage(bufferedImage, x, y, width, height, null);
     }
+    /**
+     * updates: position of the enemy
+     *          shooting cooldown
+     *          if it's assigned to its location if yes assign to a new location
+     * */
     @Override
     public void update() {
         if (shootCounter == shootCooldown) {
-            shootPattern(battleField.getProjectiles());
+            shoot(battleField.getProjectiles());
             shootCounter = 0;
         } else {
             shootCounter++;
         }
-        if (moveCounter == 0) {
             Coords c = destination[indexOfDestination];
             if (c == null){
                 indexOfDestination = 0;
@@ -90,61 +105,55 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
                 arrivedToDestination = false;
             }
             rectangle.setRect(x, y,width, height);
-            moveCounter = 0;
-        } else {
-            moveCounter++;
-        }
     }
+
+    /**
+     * moves enemy
+     * */
     @Override
     public void move(int x, int y) {
+        moveX(x);
+        moveY(y);
+        if (this.x == x && this.y == y) {
+            arrivedToDestination = true;
+        }
+    }
+    public void moveX(int x){
         if (this.x > x) {
             this.x -= speed;
         }else if (this.x < x) {
             this.x += speed;
         }
+    }
+    public void moveY(int y){
         if (this.y > y) {
             this.y -= speed;
         }
         else if (this.y < y) {
             this.y += speed;
         }
-        if (this.x == x && this.y == y) {
-            arrivedToDestination = true;
-        }
     }
+
+    /**
+     * factory method for Enemy creation
+     * */
     public static Enemy createEnemy(String choice,BattleField battleField,int x,int y,int speed,int shootCooldown,int health,String patternFilePath,int score){
         switch (choice){
-            case "ghost": return new Ghost(battleField,x,y,speed,shootCooldown,health,patternFilePath,score);
+            case "ghost":   return new Ghost(battleField,x,y,speed,shootCooldown,health,patternFilePath,score);
             case "octopus": return new Octopus(battleField,x,y,speed,shootCooldown,health,patternFilePath,score);
-            case"bug":return new Bug(battleField,x,y,speed,shootCooldown,health,patternFilePath,score);
-            case"skeleton": return new Skeleton(battleField,x,y,speed,shootCooldown,health,patternFilePath,score);
-            default: return null;
+            case "bug":     return new Bug(battleField,x,y,speed,shootCooldown,health,patternFilePath,score);
+            case "skeleton":return new Skeleton(battleField,x,y,speed,shootCooldown,health,patternFilePath,score);
+            default:        return null;
         }
     }
+    /**
+     * when hit by a bullet decrement health when 0 isDead is true -> removed from the arraylist
+     */
     public void hurt(){
         health--;
         if (health <= 0) {
             isDead = true;
         }
-    }
-    @Override
-    public boolean outsideDown() {
-        return false;
-    }
-
-    @Override
-    public boolean outsideUp() {
-        return false;
-    }
-
-    @Override
-    public boolean outsideRight() {
-        return x > 1355;
-    }
-
-    @Override
-    public boolean outsideLeft() {
-        return false;
     }
 
     public boolean isDead() {

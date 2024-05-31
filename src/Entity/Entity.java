@@ -9,16 +9,17 @@ import java.awt.image.BufferedImage;
 public abstract class Entity {
     protected int width;
     protected int height;
-    protected int x,y;
+    protected int x, y;
     protected int speed;
     protected BufferedImage bufferedImage;
     public BattleField battleField;
     public Rectangle2D rectangle;
-    public abstract void draw(Graphics2D g);
-    public abstract void update();
-    public void loadPng(String sprite,String projectileSprite){
 
-    }
+    public abstract void draw(Graphics2D g);
+
+    public abstract void update();
+
+    public void loadPng(String sprite, String projectileSprite) {}
 
     public int getX() {
         return x;
@@ -35,10 +36,39 @@ public abstract class Entity {
     public int getY() {
         return y;
     }
-    public abstract boolean outsideDown();
-    public abstract boolean outsideUp();
-    public abstract boolean outsideRight();
-    public abstract boolean outsideLeft();
+
+    /**
+     * Checks if the entity is outside the lower boundary of the game area.
+     */
+    public boolean outsideDown() {
+        return y > 500;
+    }
+
+    /**
+     * Checks if the entity is outside the upper boundary of the game area.
+     *
+     */
+    public boolean outsideUp() {
+        return y > -9;
+    }
+
+    /**
+     * Checks if the entity is outside the right boundary of the game area.
+     *
+     */
+    public boolean outsideRight() {
+        return x > 1355;
+    }
+
+    /**
+     * Checks if the entity is outside the left boundary of the game area.
+     *
+     */
+    public boolean outsideLeft() {
+        return x > -9;
+    }
+
+
     public Rectangle2D getRectangle() {
         return rectangle;
     }

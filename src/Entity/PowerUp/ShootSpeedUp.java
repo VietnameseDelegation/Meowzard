@@ -1,8 +1,6 @@
 package Entity.PowerUp;
 
-import Entity.Entity;
 import Entity.Player;
-import java.awt.*;
 
 public class ShootSpeedUp extends PowerUp {
 

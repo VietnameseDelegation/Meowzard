@@ -49,32 +49,10 @@ public abstract class PowerUp extends Entity implements PowerUpStrategy {
     }
 
     public void applyPowerUp() {
-
     }
 
     @Override
     public void removePowerUp() {
-
-    }
-
-    @Override
-    public boolean outsideDown() {
-        return false;
-    }
-
-    @Override
-    public boolean outsideUp() {
-        return false;
-    }
-
-    @Override
-    public boolean outsideRight() {
-        return false;
-    }
-
-    @Override
-    public boolean outsideLeft() {
-        return false;
     }
 
     public static PowerUp createPowerUp(int i, Player player, int x, int y) {
