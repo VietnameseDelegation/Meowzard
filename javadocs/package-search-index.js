@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"BattleField"},{"l":"Coordination"},{"l":"Entity"},{"l":"Entity.Enemies"},{"l":"Entity.PowerUp"},{"l":"GameGraphics"},{"l":"UserInput"}];updateSearchResults();
