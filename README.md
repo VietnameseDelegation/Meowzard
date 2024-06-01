@@ -26,4 +26,4 @@ bug,1050,100,5,80,3,res/Coords/trianglePattern.csv,10 <br>
 ghost,1100,100,5,100,2,res/Coords/hourGlassPattern.csv,10 <br>
 skeleton,1100,100,3,100,2,res/Coords/rhombus.csv,50 <br>
 octopus,1200,300,4,30,4,res/Coords/rhombus.csv,30 <br>
-
+P.S i wave 2 - 5.csv is broken intentionally
