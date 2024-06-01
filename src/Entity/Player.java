@@ -20,8 +20,8 @@ public class Player extends Entity {
     private boolean dead = false;
 
     public Player(KeyInput keyInput, BattleField battleField) {
-        this.currentHealth =1000 ;
-        this.maxHealth = 1000;
+        this.currentHealth =10 ;
+        this.maxHealth = 10;
         this.keyInput = keyInput;
         this.battleField = battleField;
         x = 100;
