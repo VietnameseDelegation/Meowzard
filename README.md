@@ -20,10 +20,12 @@ to add a wave you have to name it wave+numberBefore+1.csv for example is the wav
 7)	patternFilePath – file path of the pattern they will be walking in 
 8)	scoreAfterDefeat – how many score will you get after defeating one enemy.
 ## Example: <br>
+```
 choice,x,y,speed,shootCooldown,health,patternFilePath,scoreAfterDefeat <br>
 ghost,1000,100,5,50,13,res/Coords/Pattern.csv,20 <br>
 bug,1050,100,5,80,3,res/Coords/trianglePattern.csv,10 <br>
 ghost,1100,100,5,100,2,res/Coords/hourGlassPattern.csv,10 <br>
 skeleton,1100,100,3,100,2,res/Coords/rhombus.csv,50 <br>
 octopus,1200,300,4,30,4,res/Coords/rhombus.csv,30 <br>
+```
 P.S i wave 2 - 5.csv is broken intentionally
