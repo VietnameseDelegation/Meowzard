@@ -1,2 +1,9 @@
 choice,x,y,speed,shootCooldown,health,patternFilePath,scoreAfterDefeat
-ghost,1000,100,5,100,5,res/Coords/Pattern.csv,10
+ghost,1000,100,5,100,7,res/Coords/Pattern.csv,10
+ghost,1000,132,5,100,9,res/Coords/Pattern.csv,10
+ghost,1000,164,5,100,10,res/Coords/Pattern.csv,10
+ghost,1000,196,5,100,10,res/Coords/Pattern.csv,10
+ghost,1000,228,5,100,10,res/Coords/Pattern.csv,10
+ghost,1000,250,5,100,30,res/Coords/Pattern.csv,10
+ghost,1000,282,5,100,20,res/Coords/Pattern.csv,10
+ghost,1000,314,5,100,9,res/Coords/Pattern.csv,10

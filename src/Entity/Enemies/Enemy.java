@@ -119,19 +119,19 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
             arrivedToDestination = true;
         }
     }
-    public void moveX(int x){
+    public void moveX(int x) {
         if (this.x > x) {
-            this.x -= speed;
-        }else if (this.x < x) {
-            this.x += speed;
+            this.x -= Math.min(speed, this.x - x);
+        } else if (this.x < x) {
+            this.x += Math.min(speed, x - this.x);
         }
     }
-    public void moveY(int y){
+
+    public void moveY(int y) {
         if (this.y > y) {
-            this.y -= speed;
-        }
-        else if (this.y < y) {
-            this.y += speed;
+            this.y -= Math.min(speed, this.y - y);
+        } else if (this.y < y) {
+            this.y += Math.min(speed, y - this.y);
         }
     }
 
