@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
+
 import java.util.Objects;
 
 /**
@@ -139,13 +139,13 @@ public abstract class Enemy extends Entity implements IEnemyMoves {
      * factory method for Enemy creation
      * */
     public static Enemy createEnemy(String choice,BattleField battleField,int x,int y,int speed,int shootCooldown,int health,String patternFilePath,int score){
-        switch (choice){
-            case "ghost":   return new Ghost(battleField,x,y,speed,shootCooldown,health,patternFilePath,score);
-            case "octopus": return new Octopus(battleField,x,y,speed,shootCooldown,health,patternFilePath,score);
-            case "bug":     return new Bug(battleField,x,y,speed,shootCooldown,health,patternFilePath,score);
-            case "skeleton":return new Skeleton(battleField,x,y,speed,shootCooldown,health,patternFilePath,score);
-            default:        return null;
-        }
+        return switch (choice) {
+            case "ghost" -> new Ghost(battleField, x, y, speed, shootCooldown, health, patternFilePath, score);
+            case "octopus" -> new Octopus(battleField, x, y, speed, shootCooldown, health, patternFilePath, score);
+            case "bug" -> new Bug(battleField, x, y, speed, shootCooldown, health, patternFilePath, score);
+            case "skeleton" -> new Skeleton(battleField, x, y, speed, shootCooldown, health, patternFilePath, score);
+            default -> null;
+        };
     }
     /**
      * when hit by a bullet decrement health when 0 isDead is true -> removed from the arraylist
