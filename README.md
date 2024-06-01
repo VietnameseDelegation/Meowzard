@@ -1,3 +1,6 @@
+# Important info
+there has to be atleast wave.csv in the res/waves <br>
+there has to be atleast one pattern.csv that will be loaded into a enemy (in the file)
 # Controls
 W - up <br>
 S - down <br>
