@@ -1,6 +1,7 @@
 # Important info
 there has to be atleast wave.csv in the res/waves <br>
-there has to be atleast one pattern.csv that will be loaded into a enemy (in the file)
+there has to be atleast one pattern.csv that will be loaded into a enemy (in the file) <br>
+the jar file has to be in the root directory with all other folders (except javadocs and unit test)
 # Controls
 W - up <br>
 S - down <br>
