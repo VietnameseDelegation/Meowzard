@@ -9,7 +9,7 @@ D - right<br>
 L - Shoot<br>
 esc - pause<br>
 # Adding waves
-to add a wave you have to name it wave+numberBefore+1.csv for example is the wave1.csv last one and you want to add a new one so the new file is named wave2.csv (if there isnt any wave0.csv is the first one)
+to add a wave you have to name it wave+numberBefore+1.csv for example is the wave1.csv last one and you want to add a new one, so the new file is named wave2.csv (if there isnt any, wave0.csv is the first one)
 1)	Choice – can be ghost, octopus, bug, skeleton.
 2)	X – where the enemy spawns on the x-axis
 3)	Y – where the enemy spawns on the y-axis
