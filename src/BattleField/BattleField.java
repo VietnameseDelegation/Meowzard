@@ -240,8 +240,17 @@ public class BattleField {
             gameOver = true;
         }
     }
+    //for testing
     public Player getPlayer() {
         return player;
+    }
+
+    public LinkedList<Entity> getPowerUp() {
+        return powerUp;
+    }
+
+    public LinkedList<Enemy> getEnemies() {
+        return enemies;
     }
 }
 

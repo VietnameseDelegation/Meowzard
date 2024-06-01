@@ -12,8 +12,8 @@ public abstract class Entity {
     protected int x, y;
     protected int speed;
     protected BufferedImage bufferedImage;
-    public BattleField battleField;
-    public Rectangle2D rectangle;
+    protected BattleField battleField;
+    protected Rectangle2D rectangle;
 
     public abstract void draw(Graphics2D g);
 

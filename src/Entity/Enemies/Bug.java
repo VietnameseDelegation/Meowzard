@@ -28,9 +28,7 @@ public class Bug extends Enemy {
         projectiles.add(p1);
         projectiles.add(p2);
     }
-/**
- *
- * */
+
     @Override
     public void move(int x, int y){
         int specialMoveCountdown = 10;

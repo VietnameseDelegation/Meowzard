@@ -14,7 +14,7 @@ public class Player extends Entity {
     private BufferedImage projectile;
     private int maxHealth;
     private int currentHealth;
-    private int shootCooldown =4;
+    private int shootCooldown = 4;
     private int shootCounter = 0;
     private int scaleOfProjectile = 2;
     private boolean dead = false;
@@ -195,6 +195,7 @@ public class Player extends Entity {
     public void setShootCooldown(int shootCooldown) {
         this.shootCooldown = shootCooldown;
     }
-
-
+    public int getShootCooldown() {
+        return shootCooldown;
+    }
 }

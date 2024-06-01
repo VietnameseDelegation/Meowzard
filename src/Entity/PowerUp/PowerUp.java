@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.util.Objects;
 
 public abstract class PowerUp extends Entity implements PowerUpStrategy {
-    Player player;
-    int duration = 600;
-    int counter = 0;
+    protected Player player;
+    private int duration = 600;
+    private int counter = 0;
 
     public PowerUp(Player player, int x, int y) {
         this.player = player;
@@ -45,7 +45,6 @@ public abstract class PowerUp extends Entity implements PowerUpStrategy {
         } else {
             counter++;
         }
-
     }
 
     public void applyPowerUp() {
